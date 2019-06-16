@@ -1,0 +1,31 @@
+{
+  "name": "dappsdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ankarrr/DappSDK.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ankarrr/DappSDK/issues"
+  },
+  "homepage": "https://github.com/Ankarrr/DappSDK#readme",
+  "dependencies": {
+    "@portis/web3": "^2.0.0-beta.30",
+    "@walletconnect/browser": "^1.0.0-beta.25",
+    "@walletconnect/qrcode-modal": "^1.0.0-beta.25",
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.1",
+    "jsonwebtoken": "^8.5.1",
+    "util": "^0.12.0",
+    "uuid": "^3.3.2",
+    "web3": "^1.0.0-beta.55",
+    "web3-provider-engine": "^15.0.0"
+  }
+}
