@@ -84,35 +84,35 @@ module.exports = {
                 end(err);
             });
         });
-        $("#use-wc-btn").click(() => {
-            console.debug('Use WC');
+        // $("#use-wc-btn").click(() => {
+        //     console.debug('Use WC');
 
-            // Create a walletConnector
-            const walletConnector = new WalletConnect({
-                bridge: "https://bridge.walletconnect.org" // Required
-            });
+        //     // Create a walletConnector
+        //     const walletConnector = new WalletConnect({
+        //         bridge: "https://bridge.walletconnect.org" // Required
+        //     });
             
-            // Check if connection is already established
-            if (!walletConnector.connected) {
-                // create new session
-                walletConnector.createSession().then(() => {
-                // get uri for QR Code modal
-                const uri = walletConnector.uri;
-                // display QR Code modal
-                WalletConnectQRCodeModal.open(uri, () => {
-                    console.log("QR Code Modal closed");
-                });
-                });
-            }
+        //     // Check if connection is already established
+        //     if (!walletConnector.connected) {
+        //         // create new session
+        //         walletConnector.createSession().then(() => {
+        //         // get uri for QR Code modal
+        //         const uri = walletConnector.uri;
+        //         // display QR Code modal
+        //         WalletConnectQRCodeModal.open(uri, () => {
+        //             console.log("QR Code Modal closed");
+        //         });
+        //         });
+        //     }
 
-            $('#dappQrcodeModal').modal('hide');
-            window.ethereum.enable().then((res) => {
-                console.debug('res: ', res);
-                end(null, res);
-            }).catch((err)=>{
-                end(err);
-            });
-        });
+        //     $('#dappQrcodeModal').modal('hide');
+        //     window.ethereum.enable().then((res) => {
+        //         console.debug('res: ', res);
+        //         end(null, res);
+        //     }).catch((err)=>{
+        //         end(err);
+        //     });
+        // });
 
         // document.getElementById("qrcode").src=`http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=${encodeString}`;
 

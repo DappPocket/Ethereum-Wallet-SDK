@@ -2,9 +2,9 @@ const Web3 = require('web3');
 
 const ProviderEngine = require('web3-provider-engine')
 const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js')
-const RemoteLoginSubprovider = require("./remote_login_provider");
+const RemoteLoginSubprovider = require("./dappSdkProvider");
 const SubscriptionSubprovider = require('web3-provider-engine/subproviders/subscriptions')
-const StaticProvider = require('./remote_login_static_provider')
+const StaticProvider = require('./staticProvider')
 
 // Get MetaMask provider
 metamaskProvider = window.ethereum;

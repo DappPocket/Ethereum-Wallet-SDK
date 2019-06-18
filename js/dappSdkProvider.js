@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const inherits = require('util').inherits
 const Subprovider = require('web3-provider-engine/subproviders/subprovider.js')
 const uuid = require("uuid");
-const dapp_qrcode = require('./dapp_qrcode');
+const dappModal = require('./dappModal');
 
 module.exports = RemoteLoginSubprovider
 
@@ -45,7 +45,7 @@ RemoteLoginSubprovider.prototype.handleRequest = function(payload, next, end){
             */
 
             const qrcode_string = 'testforhackathon';
-            dapp_qrcode.showLoginQrcodeWithString(qrcode_string, end, () => {
+            dappModal.showLoginQrcodeWithString(qrcode_string, end, () => {
                 // Remove polling timer
                 // clearInterval(pollingTimer);
             });
@@ -64,7 +64,7 @@ RemoteLoginSubprovider.prototype.handleRequest = function(payload, next, end){
                     console.log(`account: ${account}`);
                     self._defaultAddress = account;
                     clearInterval(pollingTimer);
-                    dapp_qrcode.dismissQrcode();
+                    dappModal.dismissQrcode();
                     alreadyLogin = true;
                     end(null, [self._defaultAddress]);
                 }).catch((err) => {
