@@ -1,5 +1,5 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     entry: './js/index.js',
@@ -7,9 +7,8 @@ module.exports = {
         filename: 'dapp-sdk.bundle.js',
         path: path.resolve(__dirname, './dist'),
     },
-    devtool: false,
     mode: 'production',
-    // optimization: {
-    //     minimizer: [new UglifyJsPlugin({})],
-    // },
+    optimization: {
+        minimizer: [new TerserPlugin()], // for ES6
+    },
 };
