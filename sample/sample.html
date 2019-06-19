@@ -1,0 +1,161 @@
+<html>
+    <head>
+        <title>Sample Dapp</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body>
+        <h1>Sample Dapp</h1>
+        <div id="login">
+            Login web3: <button id="login_button"> login </button>
+        </div>
+        <div>
+            window.ethereum enable: <span id='ethereum_enable'></span>
+        </div>
+        <div>
+            web3 defaultAccount: <span id='web3_defaultAccount'></span>
+        </div>
+        <div>
+            web3 accounts: <span id='web3_accounts'></span>
+        </div>
+        <div>
+            web3 coinbase: <span id='web3_coinbase'></span>
+        </div>
+        <div>
+            web3 net id: <span id='web3_netId'></span>
+        </div>
+        <div>
+    		Web3 sign string 12345: 
+                <button id='web3_sign_button' type='button'>Go</button>
+            <br>
+            web3 sign result: <span id='web3_sign_result'></span>
+        </div>
+        
+        <div>
+    		Web3 send 0.01 to 0x1952d797Ce4D282F6C83Ca32AE9840D869C9BDD1: 
+                <button id='web3_send_tx_button' type='button'>Go</button>
+            <br>
+            web3 tx hash: <span id='web3_tx_hash'></span>
+            web3 send tx receipt: <span id='web3_send_tx_receipt'></span>
+        </div>
+
+        <div>
+            tron is dapp pocket: <span id='tron_isDappPocket'></span>
+        </div>
+
+        <div>
+            tron defaultAddress: <span id='tron_defaultAddress'></span>
+        </div>
+        
+        <div>
+            tron send 0.001 to TCH78q2rb9vgwsb2kZ64QTTgKwQfj33nCd: 
+            <button id='tron_send_button' type='button'>Go</button>
+            <br>
+            tron sign result: <span id='tron_send_result'></span>
+        </div>
+    </body>
+
+</html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src='../dist/dapp-sdk.bundle.js'></script>
+
+<script>
+// Web3
+$("#login_button").click(() => {
+    window.ethereum.enable().then(() => {
+        console.debug('enable done.');
+        console.debug(web3);
+
+        $("#login").hide();
+
+        $("#ethereum_enable").html('window.ethereum enable successed');
+
+        $("#web3_defaultAccount").html(web3.eth.defaultAccount);
+        $("#web3_netId").html(web3.version.network);
+        web3.eth.getCoinbase((err, account) => {
+            $('#web3_coinbase').html(account);
+        })
+
+        web3.eth.getAccounts((err, accounts) => {
+            $('#web3_accounts').html(accounts);
+        })
+
+    }).catch((e) => {
+        console.log('enable failed with error: ', e);
+        $("#ethereum_enable").html('window.ethereum enable FAILED');
+    });
+});
+
+$("#web3_sign_button").click(() => {
+    web3.eth.sign(web3.eth.defaultAccount, '12345', (err, result) => {
+        $('#web3_sign_result').html(result);
+    });
+});
+
+$("#web3_send_tx_button").click(() => {
+    console.debug('web3_send_tx_button')
+    web3.eth.sendTransaction({
+        from: web3.eth.defaultAccount,
+        to: '0x1952d797Ce4D282F6C83Ca32AE9840D869C9BDD1',
+        value: '1000000000000000',
+        gas: 21000,
+    }, (e, r) => {
+        console.log('web3_send_tx_receipt');
+        $('#web3_send_tx_receipt').html(JSON.stringify(r));
+    });
+});
+
+/*
+// Tron
+$('#tron_isDappPocket').html(tronWeb.isDappPocket);
+$("#tron_defaultAddress").html(tronWeb.defaultAddress.base58);
+$('#tron_sign_button').click(() => {
+	tronWeb.trx.sign(['12345'])
+	.then((result) => {
+        console.log(result);
+	    $('#tron_sign_result').html(JSON.stringify(result))
+	}).catch((err) => {
+	    alert(err)
+	    $('#tron_sign_result').html('errrrrrrrrror')
+	});
+});
+$('#tron_send_button').click(() => {
+	tronWeb.trx.sendTransaction('TCH78q2rb9vgwsb2kZ64QTTgKwQfj33nCd', 1000)
+	.then((result) => {
+        console.log(result);
+	    $('#tron_send_result').html(JSON.stringify(result))
+	}).catch((err) => {
+	    alert(err)
+	    $('#tron_send_result').html('errrrrrrrrror')
+	});
+});
+// alert(web3.eth.defaultAddress);
+/*
+$("#balance_btn").click(() => {
+    tronWeb.trx.getBalance(tronWeb.defaultAddress.base58)
+    .then((result) => {
+        console.log(result);
+        $("#balance_label").html(result);
+    });
+});
+
+const sendTx = () => {
+	var to_address = $('#to_address').val()
+	console.log(to_address);
+	
+	tronWeb.trx.sendTransaction(to_address, 100)
+	.then((result) => {
+        console.log(result);
+	    $('#send_result').html(JSON.stringify(result))
+	}).catch((err) => {
+	    alert(err)
+	    $('#send_result').html('errrrrrrrrror')
+	});
+};
+
+$('#send_button').click(sendTx);
+
+*/
+</script>
