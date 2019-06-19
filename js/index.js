@@ -7,10 +7,10 @@ const SubscriptionSubprovider = require('web3-provider-engine/subproviders/subsc
 const StaticProvider = require('./staticProvider')
 
 // Get MetaMask provider
-metamaskProvider = window.ethereum;
-metamaskWeb3 = window.web3;
-console.debug('metamaskProvider', metamaskProvider);
-console.debug('metamaskWeb3', metamaskWeb3);
+windowProvider = window.ethereum;
+windowWeb3 = window.web3;
+console.debug('windowProvider', windowProvider);
+console.debug('windowWeb3', windowWeb3);
 
 var _defaultAddress;
 

@@ -2,13 +2,16 @@ const Portis = require('@portis/web3');
 const Web3 = require('web3');
 const $ = require('jquery');
 require('bootstrap');
-const WalletConnect = require("@walletconnect/browser");
-const WalletConnectQRCodeModal = require("@walletconnect/qrcode-modal");
+const LocalMessageDuplexStream = require('post-message-stream');
+const MetamaskInpageProvider = require('metamask-inpage-provider');
+ 
+// const WalletConnect = require("@walletconnect/browser");
+// const WalletConnectQRCodeModal = require("@walletconnect/qrcode-modal");
 
 module.exports = {
     
     showLoginQrcodeWithString: (string, end, onModalDismiss=()=>{}) => {
-        const encodeString = encodeURIComponent(string);
+        // const encodeString = encodeURIComponent(string);
 
         // If modal not exist, append it?
         if ($('#dappQrcodeModal').length === 0) {
@@ -25,6 +28,8 @@ module.exports = {
                     </div>\
                     <div class="modal-body">\
                         <image id="use-metamask-btn" width="40%" src="https://en.bitcoinwiki.org/upload/en/images/thumb/e/eb/Metamask.png/400px-Metamask.png">\
+                        <br>\
+                        <image id="use-dapper-btn" width="40%" src="https://www.meetdapper.com/logos/logo_dapper.svg">\
                         <br>\
                         <image id="use-torus-btn" width="40%" class="mt-3" src="https://tor.us/assets/img/torus-logo.svg">\
                         <br>\
@@ -47,15 +52,37 @@ module.exports = {
             onModalDismiss();
             $("#dappQrcodeModal").off();
         }
-        $("#dappQrcodeModal").on("hidden.bs.modal", listener);
-        $("#use-metamask-btn").click(() => {
-            console.debug('Use MetaMask');
-            console.debug(metamaskProvider);
 
-            ethereum = metamaskProvider;
-            web3 = metamaskWeb3;
-            window.ethereum = metamaskProvider;
-            window.web3 = metamaskWeb3;
+        $("#dappQrcodeModal").on("hidden.bs.modal", listener);
+
+        $("#use-metamask-btn").click(() => {
+            if(!windowProvider.isMetaMask) {
+                console.debug('Can\'t find MetaMask');
+                return;
+            }
+            console.debug('Use MetaMask');
+
+            window.ethereum = windowProvider;
+            window.web3 = windowWeb3;
+
+            $('#dappQrcodeModal').modal('hide');
+            window.ethereum.enable().then((res) => {
+                console.log('res: ', res);
+                end(null, res);
+            }).catch((err)=>{
+                end(err);
+            });
+        });
+        $("#use-dapper-btn").click(() => {
+            if(!windowProvider.isDapper) {
+                console.debug('Can\'t find Dapper');
+                return;
+            }
+
+            console.debug('Use Dapper');
+
+            window.ethereum = windowProvider;
+            window.web3 = windowWeb3;
 
             $('#dappQrcodeModal').modal('hide');
             window.ethereum.enable().then((res) => {
