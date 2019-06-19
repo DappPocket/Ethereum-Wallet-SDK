@@ -5,7 +5,7 @@ module.exports = {
     entry: './js/index.js',
     output: {
         filename: 'dapp-sdk.bundle.js',
-        path: path.resolve(__dirname, './dist'),
+        path: path.resolve(__dirname, './static/dist'),
     },
     mode: 'production',
     optimization: {

@@ -1,6 +1,7 @@
 
 var express = require('express');
 var fs = require('fs');
+var path = require('path');
 
 //setting middleware
 function start(route) {
@@ -17,7 +18,7 @@ function start(route) {
 		});
 	})
 
-	app.use('/static', express.static('static'));
+	app.use('/static', express.static(path.join(__dirname, '../static')));
 	var server = app.listen(8080);
 }
 /*
