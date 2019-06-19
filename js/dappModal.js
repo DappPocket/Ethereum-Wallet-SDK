@@ -26,15 +26,13 @@ module.exports = {
                     <div class="modal-body">\
                         <image id="use-metamask-btn" width="40%" src="https://en.bitcoinwiki.org/upload/en/images/thumb/e/eb/Metamask.png/400px-Metamask.png">\
                         <br>\
-                        <image width="40%" class="mt-3" src="https://tor.us/assets/img/torus-logo.svg">\
+                        <image id="use-torus-btn" width="40%" class="mt-3" src="https://tor.us/assets/img/torus-logo.svg">\
                         <br>\
                         <image id="use-portis-btn" width="40%" class="mt-3" src="https://assets.portis.io/portis-logo/logo_with_name_medium.png">\
                         <br>\
                         <image width="40%" class="mt-3" src="https://cdn.worldvectorlogo.com/logos/ledger.svg">\
                         <br>\
                         <image id="use-wc-btn" width="40%" class="mt-3" src="https://discuss.walletconnect.org/uploads/default/original/1X/4626bb8c421ab0f5f869eb7a55852e9eba7442e4.png">\
-                        <br>\
-                        <image width="40%" class="mt-2" src="https://i.imgur.com/ZDO9KJO.png">\
                     </div>\
                 </div>\
                 </div>\
@@ -76,6 +74,19 @@ module.exports = {
             window.web3 = web3;
             portis.showPortis();
 
+            $('#dappQrcodeModal').modal('hide');
+            window.ethereum.enable().then((res) => {
+                console.debug('res: ', res);
+                end(null, res);
+            }).catch((err)=>{
+                end(err);
+            });
+        });
+        $("#use-torus-btn").click(() => {
+            console.debug('Use Torus');
+
+            require("@toruslabs/torus-embed");
+            
             $('#dappQrcodeModal').modal('hide');
             window.ethereum.enable().then((res) => {
                 console.debug('res: ', res);
