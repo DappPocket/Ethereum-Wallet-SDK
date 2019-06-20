@@ -13,17 +13,27 @@ const modal =  `
                     <div class="text-center">
                         <h6 class="h6">Choose your favorite wallet!</h6>
                     </div>
-                    <image class="mx-auto d-block mt-3" width="30%" id="use-metamask-btn" src="https://en.bitcoinwiki.org/upload/en/images/thumb/e/eb/Metamask.png/400px-Metamask.png">
+                    <button id="use-metamask-btn" class="btn btn-light">
+                        <image width="30%" src="https://en.bitcoinwiki.org/upload/en/images/thumb/e/eb/Metamask.png/400px-Metamask.png">
+                    </button>
                     <br>
-                    <image class="mx-auto d-block" id="use-dapper-btn" width="30%" src="https://www.meetdapper.com/logos/logo_dapper.svg">
+                    <button id="use-dapper-btn" class="btn btn-light btn-block">
+                        <image class="my-2" width="30%" src="https://www.meetdapper.com/logos/logo_dapper.svg">
+                    </button>
+                    <button id="use-torus-btn" class="btn btn-light btn-block">
+                        <image class="my-2" width="30%" src="https://tor.us/assets/img/torus-logo.svg">
+                    </button>
+                    <button id="use-portis-btn" class="btn btn-light">
+                        <image class="my-2" width="30%" src="https://assets.portis.io/portis-logo/logo_with_name_medium.png">
+                    </button>
                     <br>
-                    <image class="mx-auto d-block mt-3" id="use-torus-btn" width="30%" src="https://tor.us/assets/img/torus-logo.svg">
+                    <button id="use-ledger-btn" class="btn btn-light">
+                        <image class="my-2" width="30%" src="https://cdn.worldvectorlogo.com/logos/ledger.svg">
+                    </button>
                     <br>
-                    <image class="mx-auto d-block mt-3" id="use-portis-btn" width="30%" src="https://assets.portis.io/portis-logo/logo_with_name_medium.png">
-                    <br>
-                    <image class="mx-auto d-block mt-3" width="30%" src="https://cdn.worldvectorlogo.com/logos/ledger.svg">
-                    <br>
-                    <image class="mx-auto d-block mt-3" id="use-wc-btn" width="30%" src="https://discuss.walletconnect.org/uploads/default/original/1X/4626bb8c421ab0f5f869eb7a55852e9eba7442e4.png">
+                    <button id="use-wc-btn" class="btn btn-light">
+                        <image class="my-2" width="30%" src="https://discuss.walletconnect.org/uploads/default/original/1X/4626bb8c421ab0f5f869eb7a55852e9eba7442e4.png">
+                    </button>
                     <br>    
                 </div>
                 <div class="modal-footer">
