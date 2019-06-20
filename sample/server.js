@@ -19,6 +19,7 @@ function start(route) {
 	})
 
 	app.use('/static', express.static(path.join(__dirname, '../static')));
+
 	var server = app.listen(8080);
 }
 /*
