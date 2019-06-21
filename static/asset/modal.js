@@ -31,10 +31,9 @@ const modal =  `
                         <image class="my-2" width="30%" src="https://cdn.worldvectorlogo.com/logos/ledger.svg">
                     </button>
                     <br>
-                    <button id="use-wc-btn" class="btn btn-light">
-                        <image class="my-2" width="30%" src="https://discuss.walletconnect.org/uploads/default/original/1X/4626bb8c421ab0f5f869eb7a55852e9eba7442e4.png">
+                    <button id="use-wc-btn" class="btn btn-light btn-block btn-">
+                        <h6 class="h6 my-2 text-primary">Connect Mobile Wallet</h6>
                     </button>
-                    <br>    
                 </div>
                 <div class="modal-footer">
                     <text class="font-weight-light">Powered by Dapp SDK</text>
