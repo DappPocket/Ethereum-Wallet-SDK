@@ -13,12 +13,17 @@ const modal = require('../static/asset/modal');
 module.exports = {
     
     showLoginQrcodeWithString: (string, end, onModalDismiss=()=>{}) => {
-        // const encodeString = encodeURIComponent(string);
-
-        // If modal not exist, append it?
-        if ($('#dappQrcodeModal').length === 0) {
+         // If modal not exist, append it?
+         if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);
         }
+
+        const title = $(document).find("title").text();
+        $('#dapp-title').text(title);
+
+        const iconSrc = `https://www.google.com/s2/favicons?domain=${window.location.href}`;
+        $('#dapp-icon').attr('src', iconSrc);
+        // console.debug(window.location.href);
         
         // Add dismiss handler
         const listener = () => {
