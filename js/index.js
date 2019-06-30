@@ -1,3 +1,4 @@
+/*
 const Web3 = require('web3');
 
 const ProviderEngine = require('web3-provider-engine');
@@ -11,8 +12,8 @@ require('../static/css/bootstrap-iso.css'); // version: 4.3.1
 // Get MetaMask provider
 windowProvider = window.ethereum;
 windowWeb3 = window.web3;
-console.debug('windowProvider', windowProvider);
-console.debug('windowWeb3', windowWeb3);
+console.log('windowProvider', windowProvider);
+console.log('windowWeb3', windowWeb3);
 
 let _defaultAddress;
 
@@ -93,3 +94,110 @@ const defaultEnableCallback = (err, res) => {
 let engine = initEngine();
 
 window.ethereum = engine;
+*/
+
+import WalletConnect from '@walletconnect/browser';
+import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
+
+// Create a walletConnector
+const walletConnector = new WalletConnect({
+    bridge: 'https://bridge.walletconnect.org' // Required
+});
+
+walletConnector.killSession();
+
+// Check if connection is already established
+if (!walletConnector.connected) {
+    // create new session
+    walletConnector.createSession().then(() => {
+        // get uri for QR Code modal
+        const { uri } = walletConnector;
+        console.log(uri);
+        // display QR Code modal
+        WalletConnectQRCodeModal.open(uri, () => {
+            console.log('QR Code Modal closed');
+        });
+    });
+} else {
+    console.log('walletConnector.connected');
+}
+
+// Subscribe to connection events
+walletConnector.on('connect', (error, payload) => {
+    if (error) {
+        throw error;
+    }
+
+    // Close QR Code Modal
+    WalletConnectQRCodeModal.close();
+
+    // Get provided accounts and chainId
+    const { accounts, chainId } = payload.params[0];
+    console.log('on connect', accounts, chainId);
+
+    // send tx
+    const tx = {
+        from: accounts[0],
+        to: '0x1952d797Ce4D282F6C83Ca32AE9840D869C9BDD1',
+        value: '1000000000000000',
+        gas: 21000,
+    };
+    walletConnector.sendTransaction(tx)
+        .then((result) => {
+            // Returns transaction id (hash)
+            console.log(result);
+        })
+        .catch((error) => {
+            // Error returned when rejected
+            console.error(error);
+        });
+    // sign
+    // const message = "My email is john@doe.com - 1537836206101";
+    // const msgParams = [
+    //     accounts,
+    //     message,
+    // ];
+    // walletConnector.signMessage(msgParams)
+    // .then((result) => {
+    //     // Returns signature.
+    //     console.log(result)
+    // })
+    // .catch(error => {
+    //     // Error returned when rejected
+    //     console.error(error);
+    // })
+
+    // personal sign
+    // const message = "My email is john@doe.com - 1537836206101";
+    // const msgParams = [
+    //     message,
+    //     accounts,
+    // ];
+    // walletConnector.signPersonalMessage(msgParams)
+    // .then((result) => {
+    //     // Returns signature.
+    //     console.log(result)
+    // })
+    // .catch(error => {
+    //     // Error returned when rejected
+    //     console.error(error);
+    // })
+});
+
+walletConnector.on('session_update', (error, payload) => {
+    if (error) {
+        throw error;
+    }
+
+    // Get updated accounts and chainId
+    const { accounts, chainId } = payload.params[0];
+    console.log('on session_update', accounts, chainId);
+});
+
+walletConnector.on('disconnect', (error, payload) => {
+    if (error) {
+        throw error;
+    }
+    // Delete walletConnector
+    console.log('on disconnect');
+});
