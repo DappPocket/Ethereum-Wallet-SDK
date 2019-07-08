@@ -3,9 +3,9 @@ const jwt = require('jsonwebtoken');
 const inherits = require('util').inherits
 const Subprovider = require('web3-provider-engine/subproviders/subprovider.js')
 const uuid = require("uuid");
-const dappModal = require('./dappModal');
+import dappModal from './dappModal';
 
-module.exports = RemoteLoginSubprovider
+export default RemoteLoginSubprovider;
 
 inherits(RemoteLoginSubprovider, Subprovider)
 

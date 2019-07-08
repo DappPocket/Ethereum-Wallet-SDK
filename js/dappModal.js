@@ -1,9 +1,13 @@
+import WalletConnect from '@walletconnect/browser';
+import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
+
 const swal = require('sweetalert');
 const Portis = require('@portis/web3');
 const Web3 = require('web3');
 const $ = require('jquery');
 require('bootstrap');
 const modal = require('../static/asset/modal');
+
 
 // const LocalMessageDuplexStream = require('post-message-stream');
 // const MetamaskInpageProvider = require('metamask-inpage-provider');
@@ -48,7 +52,7 @@ module.exports = {
 
         // Add dismiss handler
         const listener = () => {
-            console.log('on dappQrcodeModal close');
+            console.debug('on dappQrcodeModal close');
             onModalDismiss();
             $('#dappQrcodeModal').off();
         };
@@ -139,35 +143,66 @@ module.exports = {
                 }
             }, 1000);
         });
-        // $("#use-wc-btn").click(() => {
-        //     console.debug('Use WC');
 
-        //     // Create a walletConnector
-        //     const walletConnector = new WalletConnect({
-        //         bridge: "https://bridge.walletconnect.org" // Required
-        //     });
+        $("#use-wc-btn").click(() => {
+            const walletConnector = new WalletConnect({
+                bridge: "https://bridge.walletconnect.org" // Required
+            });
 
-        //     // Check if connection is already established
-        //     if (!walletConnector.connected) {
-        //         // create new session
-        //         walletConnector.createSession().then(() => {
-        //         // get uri for QR Code modal
-        //         const uri = walletConnector.uri;
-        //         // display QR Code modal
-        //         WalletConnectQRCodeModal.open(uri, () => {
-        //             console.log("QR Code Modal closed");
-        //         });
-        //         });
-        //     }
+            walletConnector.killSession();
 
-        //     $('#dappQrcodeModal').modal('hide');
-        //     window.ethereum.enable().then((res) => {
-        //         console.debug('res: ', res);
-        //         end(null, res);
-        //     }).catch((err)=>{
-        //         end(err);
-        //     });
-        // });
+            // Check if connection is already established
+            if (!walletConnector.connected) {
+                $('#dappQrcodeModal').modal('hide');
+
+                // create new session
+                walletConnector.createSession().then(() => {
+                    // get uri for QR Code modal
+                    const uri = walletConnector.uri;
+
+                    console.debug(uri);
+                    // display QR Code modal
+                    WalletConnectQRCodeModal.open(uri, () => {                        
+                        console.debug('QR Code Modal closed');
+                    });
+                });
+            } else {
+                console.debug('walletConnector.connected');
+            }
+
+            // Subscribe to connection events
+            walletConnector.on('connect', (error, payload) => {
+                if (error) {
+                    throw error;
+                }
+
+                // Close QR Code Modal
+                WalletConnectQRCodeModal.close();
+
+                // Get provided accounts and chainId
+                const { accounts, chainId } = payload.params[0];
+                console.debug('on connect', accounts, chainId);
+            });
+
+            walletConnector.on('session_update', (error, payload) => {
+                if (error) {
+                    throw error;
+                }
+
+                // Get updated accounts and chainId
+                const { accounts, chainId } = payload.params[0];
+                console.debug('on session_update', accounts, chainId);
+            });
+
+            walletConnector.on('disconnect', (error, payload) => {
+                if (error) {
+                    throw error;
+                }
+
+                // Delete walletConnector
+                console.debug('on disconnect');
+            });
+        });
 
         $('#help-button').click(() => {
             swal({
