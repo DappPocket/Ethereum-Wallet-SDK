@@ -35,6 +35,7 @@ module.exports = {
         $("#dappQrcodeModal").on("hidden.bs.modal", listener);
 
         $("#use-metamask-btn").click(() => {
+            $("#loaderModal").modal('show');
             if(!windowProvider.isMetaMask) {
                 console.debug('Can\'t find MetaMask');
                 return;
@@ -48,11 +49,13 @@ module.exports = {
             window.ethereum.enable().then((res) => {
                 console.log('res: ', res);
                 end(null, res);
+                $("#loaderModal").modal('hide');
             }).catch((err)=>{
                 end(err);
             });
         });
         $("#use-dapper-btn").click(() => {
+            $("#loaderModal").modal('show');
             if(!windowProvider.isDapper) {
                 console.debug('Can\'t find Dapper');
                 return;
@@ -67,12 +70,14 @@ module.exports = {
             window.ethereum.enable().then((res) => {
                 console.log('res: ', res);
                 end(null, res);
+                $("#loaderModal").modal('hide');
             }).catch((err)=>{
                 end(err);
             });
         });
         $("#use-portis-btn").click(() => {
             console.debug('Use Portis');
+            $("#loaderModal").modal('show');
 
             const portis = new Portis('696237e9-38fb-406a-a4d6-bfa3a4d63293', 'mainnet');
             const web3 = new Web3(portis.provider);
@@ -84,6 +89,7 @@ module.exports = {
             window.ethereum.enable().then((res) => {
                 console.debug('res: ', res);
                 end(null, res);
+                $("#loaderModal").modal('hide');
             }).catch((err)=>{
                 end(err);
             });
@@ -93,10 +99,12 @@ module.exports = {
 
             require("@toruslabs/torus-embed");
 
+            $("#loaderModal").modal('show');
             $('#dappQrcodeModal').modal('hide');
             window.ethereum.enable().then((res) => {
                 console.debug('res: ', res);
                 end(null, res);
+                $("#loaderModal").modal('hide');
             }).catch((err)=>{
                 end(err);
             });

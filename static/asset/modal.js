@@ -4,6 +4,31 @@ const modal =  `
             .modal-dialog {
                 width: 400px !important;
             }
+            .loader {
+                border: 16px solid #f3f3f3;
+                border-radius: 50%;
+                border-top: 16px solid #3498db;
+                width: 120px;
+                height: 120px;
+                -webkit-animation: spin 2s linear infinite;
+                animation: spin 2s linear infinite;
+                margin:auto;
+                left:0;
+                right:0;
+                top:0;
+                bottom:0;
+                position:fixed;
+            }
+
+            @-webkit-keyframes spin {
+                0% { -webkit-transform: rotate(0deg); }
+                100% { -webkit-transform: rotate(360deg); }
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
         </style>
     </head>
     <!-- Modal -->
@@ -43,6 +68,14 @@ const modal =  `
                 <div class="modal-footer">
                     <text class="font-weight-light">Powered by Dapp SDK</text>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Loader -->
+    <div class="modal fade" id="loaderModal" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+        <div class="modal-dialog modal-sm" >
+            <div class="modal-body">
+                <div class="loader"></div>
             </div>
         </div>
     </div>
