@@ -48,8 +48,8 @@ module.exports = {
             $('#dappQrcodeModal').modal('hide');
             window.ethereum.enable().then((res) => {
                 console.log('res: ', res);
-                end(null, res);
                 $("#loaderModal").modal('hide');
+                end(null, res);
             }).catch((err)=>{
                 end(err);
             });
@@ -69,8 +69,8 @@ module.exports = {
             $('#dappQrcodeModal').modal('hide');
             window.ethereum.enable().then((res) => {
                 console.log('res: ', res);
-                end(null, res);
                 $("#loaderModal").modal('hide');
+                end(null, res);
             }).catch((err)=>{
                 end(err);
             });
@@ -88,8 +88,8 @@ module.exports = {
             $('#dappQrcodeModal').modal('hide');
             window.ethereum.enable().then((res) => {
                 console.debug('res: ', res);
-                end(null, res);
                 $("#loaderModal").modal('hide');
+                end(null, res);
             }).catch((err)=>{
                 end(err);
             });
@@ -103,8 +103,8 @@ module.exports = {
             $('#dappQrcodeModal').modal('hide');
             window.ethereum.enable().then((res) => {
                 console.debug('res: ', res);
-                end(null, res);
                 $("#loaderModal").modal('hide');
+                end(null, res);
             }).catch((err)=>{
                 end(err);
             });
