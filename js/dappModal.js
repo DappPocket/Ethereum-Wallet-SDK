@@ -34,7 +34,7 @@ const toggleQrcode = () => {
 
 module.exports = {
 
-    showLoginQrcodeWithString: (string, end, onModalDismiss = () => {}) => {
+    showLoginQrcodeWithString: (string, end, onLoginSuccess = () => {}) => {
         // If modal not exist, append it?
         if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);
@@ -53,7 +53,6 @@ module.exports = {
         // Add dismiss handler
         const listener = () => {
             console.debug('on dappQrcodeModal close');
-            onModalDismiss();
             $('#dappQrcodeModal').off();
         };
 
@@ -144,9 +143,9 @@ module.exports = {
             }, 1000);
         });
 
-        $("#use-wc-btn").click(() => {
+        $('#use-wc-btn').click(() => {
             const walletConnector = new WalletConnect({
-                bridge: "https://bridge.walletconnect.org" // Required
+                bridge: 'https://bridge.walletconnect.org' // Required
             });
 
             walletConnector.killSession();
@@ -158,7 +157,7 @@ module.exports = {
                 // create new session
                 walletConnector.createSession().then(() => {
                     // get uri for QR Code modal
-                    const uri = walletConnector.uri;
+                    const { uri } = walletConnector;
 
                     console.debug(uri);
                     // display QR Code modal
@@ -168,6 +167,10 @@ module.exports = {
                 });
             } else {
                 console.debug('walletConnector.connected');
+                console.log(walletConnector)
+                // const accounts = walletConnector._accounts;
+                // onLoginSuccess(true, accounts, walletConnector);
+                // end(null, accounts);
             }
 
             // Subscribe to connection events
@@ -182,6 +185,8 @@ module.exports = {
                 // Get provided accounts and chainId
                 const { accounts, chainId } = payload.params[0];
                 console.debug('on connect', accounts, chainId);
+                onLoginSuccess(true, accounts, walletConnector);
+                end(null, accounts);
             });
 
             walletConnector.on('session_update', (error, payload) => {

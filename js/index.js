@@ -90,7 +90,6 @@ const initEngine = () => {
 
     // start polling for blocks
     eng.start();
-
     return eng;
 };
 
