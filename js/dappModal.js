@@ -96,18 +96,25 @@ module.exports = {
         });
         $("#use-torus-btn").click(() => {
             console.debug('Use Torus');
+            $("#loaderModal").modal('show');
 
+            // Create web3 of Torus
             require("@toruslabs/torus-embed");
 
-            $("#loaderModal").modal('show');
             $('#dappQrcodeModal').modal('hide');
-            window.ethereum.enable().then((res) => {
-                console.debug('res: ', res);
-                $("#loaderModal").modal('hide');
-                end(null, res);
-            }).catch((err)=>{
-                end(err);
-            });
+            const timerID = setInterval(() => {
+                // Check if Web3 of Torus is loaded
+                if (web3.currentProvider.isTorus) {
+                    window.ethereum.enable().then((res) => {
+                        console.debug('res: ', res);
+                        $("#loaderModal").modal('hide');
+                        end(null, res);
+                    }).catch((err)=>{
+                        end(err);
+                    });
+                    clearInterval(timerID);
+                }
+            }, 1000);
         });
         // $("#use-wc-btn").click(() => {
         //     console.debug('Use WC');
