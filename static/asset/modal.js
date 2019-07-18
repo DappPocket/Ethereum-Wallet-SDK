@@ -112,19 +112,19 @@ const modal =  `
                             <h6 class="h6">Choose your favorite wallet</h6>
                         </div>
                         <button id="use-metamask-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="30%" src="https://en.bitcoinwiki.org/upload/en/images/thumb/e/eb/Metamask.png/400px-Metamask.png">
+                            <img class="my-2" width="50%" src="https://i.imgur.com/qnlIrUd.png">
                         </button>
                         <button id="use-dapper-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="30%" src="https://www.meetdapper.com/logos/logo_dapper.svg">
+                            <img class="my-2" width="50%" src="https://i.imgur.com/GEM6grZ.png">
                         </button>
                         <button id="use-torus-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="30%" src="https://tor.us/assets/img/torus-logo.svg">
+                            <img class="my-2" width="50%" src="https://i.imgur.com/39qkLL3.png">
                         </button>
                         <button id="use-portis-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="30%" src="https://assets.portis.io/portis-logo/logo_with_name_medium.png">
+                            <img class="my-2" width="50%" src="https://i.imgur.com/3oXNS7K.png">
                         </button>
                         <button id="use-ledger-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="30%" src="https://cdn.worldvectorlogo.com/logos/ledger.svg">
+                            <img class="my-2" width="50%" src="https://i.imgur.com/vlxG8lN.png">
                         </button>
                         <button id="use-wc-btn" class="btn btn-light btn-block">
                             <h6 class="my-2 text-primary">Connect Mobile Wallet</h6>
