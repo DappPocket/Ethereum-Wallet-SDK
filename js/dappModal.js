@@ -6,15 +6,15 @@ const modal = require('../static/asset/modal');
 
 // const LocalMessageDuplexStream = require('post-message-stream');
 // const MetamaskInpageProvider = require('metamask-inpage-provider');
- 
+
 // const WalletConnect = require("@walletconnect/browser");
 // const WalletConnectQRCodeModal = require("@walletconnect/qrcode-modal");
 
 module.exports = {
-    
+
     showLoginQrcodeWithString: (string, end, onModalDismiss=()=>{}) => {
-         // If modal not exist, append it?
-         if ($('#dappQrcodeModal').length === 0) {
+        // If modal not exist, append it?
+        if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);
         }
 
@@ -24,7 +24,7 @@ module.exports = {
         const iconSrc = `https://www.google.com/s2/favicons?domain=${window.location.href}`;
         $('#dapp-icon').attr('src', iconSrc);
         // console.debug(window.location.href);
-        
+
         // Add dismiss handler
         const listener = () => {
             console.log('on dappQrcodeModal close');
@@ -92,7 +92,7 @@ module.exports = {
             console.debug('Use Torus');
 
             require("@toruslabs/torus-embed");
-            
+
             $('#dappQrcodeModal').modal('hide');
             window.ethereum.enable().then((res) => {
                 console.debug('res: ', res);
@@ -108,7 +108,7 @@ module.exports = {
         //     const walletConnector = new WalletConnect({
         //         bridge: "https://bridge.walletconnect.org" // Required
         //     });
-            
+
         //     // Check if connection is already established
         //     if (!walletConnector.connected) {
         //         // create new session
@@ -138,8 +138,9 @@ module.exports = {
 
     dismissQrcode: () => {
         $('#dappQrcodeModal').modal('hide');
-    }
-}
-const toggleQrcode = () => { 
+    },
+};
+
+const toggleQrcode = () => {
     $('#dappQrcodeModal').modal();
-}
+};
