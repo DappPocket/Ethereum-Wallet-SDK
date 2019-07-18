@@ -6,7 +6,7 @@ const modal =  `
             }
 
             .sk-folding-cube {
-                margin: 40vh auto;
+                margin: 5vh auto;
                 width: 40px;
                 height: 40px;
                 position: relative;
@@ -107,43 +107,43 @@ const modal =  `
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="text-center">
-                        <h6 class="h6">Choose your favorite wallet</h6>
+                    <div id="walletGroup">
+                        <div class="text-center">
+                            <h6 class="h6">Choose your favorite wallet</h6>
+                        </div>
+                        <button id="use-metamask-btn" class="btn btn-light btn-block">
+                            <img class="my-2" width="30%" src="https://en.bitcoinwiki.org/upload/en/images/thumb/e/eb/Metamask.png/400px-Metamask.png">
+                        </button>
+                        <button id="use-dapper-btn" class="btn btn-light btn-block">
+                            <img class="my-2" width="30%" src="https://www.meetdapper.com/logos/logo_dapper.svg">
+                        </button>
+                        <button id="use-torus-btn" class="btn btn-light btn-block">
+                            <img class="my-2" width="30%" src="https://tor.us/assets/img/torus-logo.svg">
+                        </button>
+                        <button id="use-portis-btn" class="btn btn-light btn-block">
+                            <img class="my-2" width="30%" src="https://assets.portis.io/portis-logo/logo_with_name_medium.png">
+                        </button>
+                        <button id="use-ledger-btn" class="btn btn-light btn-block">
+                            <img class="my-2" width="30%" src="https://cdn.worldvectorlogo.com/logos/ledger.svg">
+                        </button>
+                        <button id="use-wc-btn" class="btn btn-light btn-block">
+                            <h6 class="my-2 text-primary">Connect Mobile Wallet</h6>
+                        </button>
                     </div>
-                    <button id="use-metamask-btn" class="btn btn-light btn-block">
-                        <img class="my-2" width="30%" src="https://en.bitcoinwiki.org/upload/en/images/thumb/e/eb/Metamask.png/400px-Metamask.png">
-                    </button>
-                    <button id="use-dapper-btn" class="btn btn-light btn-block">
-                        <img class="my-2" width="30%" src="https://www.meetdapper.com/logos/logo_dapper.svg">
-                    </button>
-                    <button id="use-torus-btn" class="btn btn-light btn-block">
-                        <img class="my-2" width="30%" src="https://tor.us/assets/img/torus-logo.svg">
-                    </button>
-                    <button id="use-portis-btn" class="btn btn-light btn-block">
-                        <img class="my-2" width="30%" src="https://assets.portis.io/portis-logo/logo_with_name_medium.png">
-                    </button>
-                    <button id="use-ledger-btn" class="btn btn-light btn-block">
-                        <img class="my-2" width="30%" src="https://cdn.worldvectorlogo.com/logos/ledger.svg">
-                    </button>
-                    <button id="use-wc-btn" class="btn btn-light btn-block">
-                        <h6 class="my-2 text-primary">Connect Mobile Wallet</h6>
-                    </button>
+                    <div id="spinner" style="display: none;">
+                        <div class="text-center">
+                            <h6 class="h6">Connecting...</h6>
+                        </div>
+                        <div class="sk-folding-cube">
+                            <div class="sk-cube1 sk-cube"></div>
+                            <div class="sk-cube2 sk-cube"></div>
+                            <div class="sk-cube4 sk-cube"></div>
+                            <div class="sk-cube3 sk-cube"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <text class="font-weight-light">Powered by Dapp SDK</text>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Loader -->
-    <div class="modal fade" id="loaderModal" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
-        <div class="modal-dialog modal-sm" >
-            <div class="modal-body">
-                <div class="sk-folding-cube">
-                    <div class="sk-cube1 sk-cube"></div>
-                    <div class="sk-cube2 sk-cube"></div>
-                    <div class="sk-cube4 sk-cube"></div>
-                    <div class="sk-cube3 sk-cube"></div>
                 </div>
             </div>
         </div>

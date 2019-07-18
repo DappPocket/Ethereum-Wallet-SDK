@@ -10,6 +10,23 @@ const modal = require('../static/asset/modal');
 // const WalletConnect = require("@walletconnect/browser");
 // const WalletConnectQRCodeModal = require("@walletconnect/qrcode-modal");
 
+const modalShow = () => {
+    $('#dappQrcodeModal').modal('show');
+};
+
+const modalHide = () => {
+    $('#dappQrcodeModal').modal('hide');
+};
+
+const modalStartLoading = () => {
+    $('#walletGroup').hide();
+    $('#spinner').show();
+};
+
+const toggleQrcode = () => { 
+    $('#dappQrcodeModal').modal();
+};
+
 module.exports = {
 
     showLoginQrcodeWithString: (string, end, onModalDismiss=()=>{}) => {
@@ -18,9 +35,9 @@ module.exports = {
             $('body').append(modal);
         }
 
+        // Set modal title
         const title = $(document).find("title").text();
         $('#dapp-title').text(title);
-
         const iconSrc = `https://www.google.com/s2/favicons?domain=${window.location.href}`;
         $('#dapp-icon').attr('src', iconSrc);
         // console.debug(window.location.href);
@@ -35,9 +52,9 @@ module.exports = {
         $("#dappQrcodeModal").on("hidden.bs.modal", listener);
 
         $("#use-metamask-btn").click(() => {
-            $("#loaderModal").modal('show');
             if(!windowProvider.isMetaMask) {
                 console.debug('Can\'t find MetaMask');
+                modalHide();
                 return;
             }
             console.debug('Use MetaMask');
@@ -45,19 +62,21 @@ module.exports = {
             window.ethereum = windowProvider;
             window.web3 = windowWeb3;
 
-            $('#dappQrcodeModal').modal('hide');
+            modalStartLoading();
             window.ethereum.enable().then((res) => {
                 console.log('res: ', res);
-                $("#loaderModal").modal('hide');
+                modalHide();
                 end(null, res);
             }).catch((err)=>{
+                modalHide();
                 end(err);
             });
         });
         $("#use-dapper-btn").click(() => {
-            $("#loaderModal").modal('show');
             if(!windowProvider.isDapper) {
                 console.debug('Can\'t find Dapper');
+                $('#dappQrcodeModal').modal('hide');
+                $("#loaderModal").modal('hide');
                 return;
             }
 
@@ -66,18 +85,18 @@ module.exports = {
             window.ethereum = windowProvider;
             window.web3 = windowWeb3;
 
-            $('#dappQrcodeModal').modal('hide');
+            modalStartLoading();
             window.ethereum.enable().then((res) => {
                 console.log('res: ', res);
-                $("#loaderModal").modal('hide');
+                modalHide();
                 end(null, res);
             }).catch((err)=>{
+                modalHide();
                 end(err);
             });
         });
         $("#use-portis-btn").click(() => {
             console.debug('Use Portis');
-            $("#loaderModal").modal('show');
 
             const portis = new Portis('696237e9-38fb-406a-a4d6-bfa3a4d63293', 'mainnet');
             const web3 = new Web3(portis.provider);
@@ -85,31 +104,32 @@ module.exports = {
             window.web3 = web3;
             portis.showPortis();
 
-            $('#dappQrcodeModal').modal('hide');
+            modalStartLoading();
             window.ethereum.enable().then((res) => {
                 console.debug('res: ', res);
-                $("#loaderModal").modal('hide');
+                modalHide()
                 end(null, res);
             }).catch((err)=>{
+                modalHide();
                 end(err);
             });
         });
         $("#use-torus-btn").click(() => {
             console.debug('Use Torus');
-            $("#loaderModal").modal('show');
 
             // Create web3 of Torus
             require("@toruslabs/torus-embed");
 
-            $('#dappQrcodeModal').modal('hide');
+            modalStartLoading();
             const timerID = setInterval(() => {
                 // Check if Web3 of Torus is loaded
                 if (web3.currentProvider.isTorus) {
                     window.ethereum.enable().then((res) => {
                         console.debug('res: ', res);
-                        $("#loaderModal").modal('hide');
+                        modalHide()
                         end(null, res);
                     }).catch((err)=>{
+                        modalHide()
                         end(err);
                     });
                     clearInterval(timerID);
@@ -150,12 +170,4 @@ module.exports = {
 
         toggleQrcode();
     },
-
-    dismissQrcode: () => {
-        $('#dappQrcodeModal').modal('hide');
-    },
-};
-
-const toggleQrcode = () => {
-    $('#dappQrcodeModal').modal();
-};
+}
