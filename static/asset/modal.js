@@ -112,13 +112,13 @@ const modal =  `
                             <h6 class="h6">Choose your favorite wallet</h6>
                         </div>
                         <button id="use-metamask-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="50%" src="https://i.imgur.com/qnlIrUd.png">
+                            <img class="my-2" width="50%" src="https://i.imgur.com/2HV78Pn.png">
                         </button>
                         <button id="use-dapper-btn" class="btn btn-light btn-block">
                             <img class="my-2" width="50%" src="https://i.imgur.com/GEM6grZ.png">
                         </button>
                         <button id="use-torus-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="50%" src="https://i.imgur.com/39qkLL3.png">
+                            <img class="my-2" width="50%" src="https://i.imgur.com/1EL9dlf.png">
                         </button>
                         <button id="use-portis-btn" class="btn btn-light btn-block">
                             <img class="my-2" width="50%" src="https://i.imgur.com/3oXNS7K.png">
