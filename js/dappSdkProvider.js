@@ -23,13 +23,23 @@ RemoteLoginSubprovider.prototype.handleRequest = function(payload, next, end){
         // enable
         case 'eth_requestAccounts': {
             console.debug('******* enable(), eth_requestAccounts *******');
+            const { payload: { walletConnector } } = payload
             const qrcode_string = 'testforhackathon';
-            dappModal.showLoginQrcodeWithString(qrcode_string, end, (login, accounts, walletConnector) => {
-                console.log('hihihih accounts: ', accounts);
-                self.alreadyLogin = login;
+            
+            // If wc session is still alive
+            if (walletConnector.connected) {
+                const { _accounts: accounts } = walletConnector;
+                self.alreadyLogin = true;
                 self.defaultAddress = accounts[0];
                 self.walletConnector = walletConnector;
-            });
+                end(null, accounts);
+            } else {
+                dappModal.showLoginQrcodeWithString(qrcode_string, walletConnector, end, (login, accounts, walletConnector) => {
+                    self.alreadyLogin = login;
+                    self.defaultAddress = accounts[0];
+                    self.walletConnector = walletConnector;
+                });
+            }
             
             break;
         }

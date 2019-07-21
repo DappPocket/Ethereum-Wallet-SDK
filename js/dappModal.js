@@ -32,9 +32,13 @@ const toggleQrcode = () => {
     $('#dappQrcodeModal').modal();
 };
 
-module.exports = {
+export default {
 
+<<<<<<< 7efcfc47ca814392b99829620ea5147553c4bcf3
     showLoginQrcodeWithString: (string, end, onLoginSuccess = () => {}) => {
+=======
+    showLoginQrcodeWithString: (string, walletConnector, end, onLoginSuccess=()=>{}) => {
+>>>>>>> Add logout/disconnect related codes.
         // If modal not exist, append it?
         if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);
@@ -143,13 +147,7 @@ module.exports = {
             }, 1000);
         });
 
-        $('#use-wc-btn').click(() => {
-            const walletConnector = new WalletConnect({
-                bridge: 'https://bridge.walletconnect.org' // Required
-            });
-
-            walletConnector.killSession();
-
+        $("#use-wc-btn").click(() => {
             // Check if connection is already established
             if (!walletConnector.connected) {
                 $('#dappQrcodeModal').modal('hide');
@@ -159,18 +157,15 @@ module.exports = {
                     // get uri for QR Code modal
                     const { uri } = walletConnector;
 
-                    console.debug(uri);
                     // display QR Code modal
                     WalletConnectQRCodeModal.open(uri, () => {                        
                         console.debug('QR Code Modal closed');
                     });
                 });
             } else {
+                console.log('**** Should not be here.')
                 console.debug('walletConnector.connected');
                 console.log(walletConnector)
-                // const accounts = walletConnector._accounts;
-                // onLoginSuccess(true, accounts, walletConnector);
-                // end(null, accounts);
             }
 
             // Subscribe to connection events
@@ -184,28 +179,9 @@ module.exports = {
 
                 // Get provided accounts and chainId
                 const { accounts, chainId } = payload.params[0];
-                console.debug('on connect', accounts, chainId);
+
                 onLoginSuccess(true, accounts, walletConnector);
                 end(null, accounts);
-            });
-
-            walletConnector.on('session_update', (error, payload) => {
-                if (error) {
-                    throw error;
-                }
-
-                // Get updated accounts and chainId
-                const { accounts, chainId } = payload.params[0];
-                console.debug('on session_update', accounts, chainId);
-            });
-
-            walletConnector.on('disconnect', (error, payload) => {
-                if (error) {
-                    throw error;
-                }
-
-                // Delete walletConnector
-                console.debug('on disconnect');
             });
         });
 

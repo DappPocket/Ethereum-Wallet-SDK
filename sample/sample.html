@@ -10,10 +10,10 @@
             <button id="login_button"> login </button>
             <button id="logout_button" hidden> logout </button>
         </div>
-        <!-- <div id="logout">
+        <div id="logout">
             Logout web3:
             <button id="logout_button"> logout </button>
-        </div> -->
+        </div>
         <div>
             window.ethereum enable: <span id='ethereum_enable'></span>
         </div>
@@ -105,6 +105,9 @@ $("#login_button").click(() => {
     });
 });
 
+$("#logout").click(() => {
+    window.ethereum.logout();
+});
 // Web3 Sign
 $("#web3_sign_button").click(() => {
     web3.eth.sign('Sign 12345', web3.eth.defaultAccount, (err, result) => {
