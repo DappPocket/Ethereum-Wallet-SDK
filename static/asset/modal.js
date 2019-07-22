@@ -1,10 +1,6 @@
 const modal = `
     <head>
         <style>
-            .modal-dialog {
-                width: 400px !important;
-            }
-
             .sk-folding-cube {
                 margin: 5vh auto;
                 width: 40px;
@@ -98,7 +94,7 @@ const modal = `
     <!-- Modal -->
     <div class="bootstrap-iso">
         <div id="dappQrcodeModal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header align-items-center">
                         <img id="dapp-icon" class="mr-2" style="max-width: 20px;" src="https://images.cointelegraph.com/images/240_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS9zdG9yYWdlL3VwbG9hZHMvdmlldy8wZWNiY2NiNDI0NWQ2MThmMGI0MzUxNGQ0Y2QxZTg1NS5wbmc=.png">
