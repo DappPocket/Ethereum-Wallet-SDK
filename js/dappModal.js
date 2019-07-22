@@ -1,3 +1,4 @@
+const swal = require('sweetalert');
 const Portis = require('@portis/web3');
 const Web3 = require('web3');
 const $ = require('jquery');
@@ -23,20 +24,20 @@ const modalStartLoading = () => {
     $('#spinner').show();
 };
 
-const toggleQrcode = () => { 
+const toggleQrcode = () => {
     $('#dappQrcodeModal').modal();
 };
 
 module.exports = {
 
-    showLoginQrcodeWithString: (string, end, onModalDismiss=()=>{}) => {
+    showLoginQrcodeWithString: (string, end, onModalDismiss = () => {}) => {
         // If modal not exist, append it?
         if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);
         }
 
         // Set modal title
-        const title = $(document).find("title").text();
+        const title = $(document).find('title').text();
         $('#dapp-title').text(title);
         const iconSrc = `https://www.google.com/s2/favicons?domain=${window.location.href}`;
         $('#dapp-icon').attr('src', iconSrc);
@@ -46,15 +47,15 @@ module.exports = {
         const listener = () => {
             console.log('on dappQrcodeModal close');
             onModalDismiss();
-            $("#dappQrcodeModal").off();
-        }
+            $('#dappQrcodeModal').off();
+        };
 
-        $("#dappQrcodeModal").on("hidden.bs.modal", listener);
+        $('#dappQrcodeModal').on('hidden.bs.modal', listener);
 
-        $("#use-metamask-btn").click(() => {
-            if(!windowProvider.isMetaMask) {
+        $('#use-metamask-btn').click(() => {
+            if (!windowProvider.isMetaMask) {
                 console.debug('Can\'t find MetaMask');
-                modalHide();
+                swal({ title: 'Can\'t find MetaMask', text: 'Please enable or install it in the app store of your browser.', icon: 'warning' });
                 return;
             }
             console.debug('Use MetaMask');
@@ -67,16 +68,15 @@ module.exports = {
                 console.log('res: ', res);
                 modalHide();
                 end(null, res);
-            }).catch((err)=>{
+            }).catch((err) => {
                 modalHide();
                 end(err);
             });
         });
-        $("#use-dapper-btn").click(() => {
-            if(!windowProvider.isDapper) {
+        $('#use-dapper-btn').click(() => {
+            if (!windowProvider.isDapper) {
                 console.debug('Can\'t find Dapper');
-                $('#dappQrcodeModal').modal('hide');
-                $("#loaderModal").modal('hide');
+                swal({ title: 'Can\'t find Dapper', text: 'Please enable or install it in the app store of your browser.', icon: 'warning' });
                 return;
             }
 
@@ -90,12 +90,12 @@ module.exports = {
                 console.log('res: ', res);
                 modalHide();
                 end(null, res);
-            }).catch((err)=>{
+            }).catch((err) => {
                 modalHide();
                 end(err);
             });
         });
-        $("#use-portis-btn").click(() => {
+        $('#use-portis-btn').click(() => {
             console.debug('Use Portis');
 
             const portis = new Portis('696237e9-38fb-406a-a4d6-bfa3a4d63293', 'mainnet');
@@ -107,18 +107,18 @@ module.exports = {
             modalStartLoading();
             window.ethereum.enable().then((res) => {
                 console.debug('res: ', res);
-                modalHide()
+                modalHide();
                 end(null, res);
-            }).catch((err)=>{
+            }).catch((err) => {
                 modalHide();
                 end(err);
             });
         });
-        $("#use-torus-btn").click(() => {
+        $('#use-torus-btn').click(() => {
             console.debug('Use Torus');
 
             // Create web3 of Torus
-            require("@toruslabs/torus-embed");
+            require('@toruslabs/torus-embed');
 
             modalStartLoading();
             const timerID = setInterval(() => {
@@ -126,10 +126,10 @@ module.exports = {
                 if (web3.currentProvider.isTorus) {
                     window.ethereum.enable().then((res) => {
                         console.debug('res: ', res);
-                        modalHide()
+                        modalHide();
                         end(null, res);
-                    }).catch((err)=>{
-                        modalHide()
+                    }).catch((err) => {
+                        modalHide();
                         end(err);
                     });
                     clearInterval(timerID);
@@ -170,4 +170,4 @@ module.exports = {
 
         toggleQrcode();
     },
-}
+};
