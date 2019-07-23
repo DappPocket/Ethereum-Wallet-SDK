@@ -176,7 +176,7 @@ module.exports = {
                     element: 'div',
                     attributes: {
                         innerHTML: `
-                            You will need to have a <storng>Ethereum account</strong> to start exploring.
+                            You will need a <storng>Ethereum account</strong> to start exploring.
                             You can get a Ethereum account from a wallet application.
                             There are many wallets, here are the wallets we support:
                             <a href="https://metamask.io/" target="_blank">MetaMask</a>,
