@@ -1,4 +1,4 @@
-const modal =  `
+const modal = `
     <head>
         <style>
             .modal-dialog {
@@ -96,63 +96,64 @@ const modal =  `
         </style>
     </head>
     <!-- Modal -->
-    <div id="dappQrcodeModal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header align-items-center">
-                    <img id="dapp-icon" class="mr-2" style="max-width: 20px;" src="https://images.cointelegraph.com/images/240_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS9zdG9yYWdlL3VwbG9hZHMvdmlldy8wZWNiY2NiNDI0NWQ2MThmMGI0MzUxNGQ0Y2QxZTg1NS5wbmc=.png">
-                    <h4 id="dapp-title" class="h4 mb-0">Welcome</h6>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="walletGroup">
-                        <div class="text-center">
-                            <h6 class="h6" id="modal-intro"></h6>
-                        </div>
-                        <button id="use-metamask-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="50%" src="https://i.imgur.com/2HV78Pn.png">
-                        </button>
-                        <button id="use-dapper-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="50%" src="https://i.imgur.com/GEM6grZ.png">
-                        </button>
-                        <button id="use-torus-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="50%" src="https://i.imgur.com/1EL9dlf.png">
-                        </button>
-                        <button id="use-portis-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="50%" src="https://i.imgur.com/3oXNS7K.png">
-                        </button>
-                        <button id="use-ledger-btn" class="btn btn-light btn-block">
-                            <img class="my-2" width="50%" src="https://i.imgur.com/vlxG8lN.png">
-                        </button>
-                        <button id="use-wc-btn" class="btn btn-light btn-block">
-                            <h6 class="my-2 text-primary">Connect Mobile Wallet</h6>
+    <div class="bootstrap-iso">
+        <div id="dappQrcodeModal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header align-items-center">
+                        <img id="dapp-icon" class="mr-2" style="max-width: 20px;" src="https://images.cointelegraph.com/images/240_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS9zdG9yYWdlL3VwbG9hZHMvdmlldy8wZWNiY2NiNDI0NWQ2MThmMGI0MzUxNGQ0Y2QxZTg1NS5wbmc=.png">
+                        <h4 id="dapp-title" class="h4 mb-0">Welcome</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div id="spinner" style="display: none;">
-                        <div class="text-center">
-                            <h6 class="h6">Connecting...</h6>
+                    <div class="modal-body">
+                        <div id="walletGroup">
+                            <div class="text-center">
+                                <h6 class="h6" id="modal-intro"></h6>
+                            </div>
+                            <button id="use-metamask-btn" class="btn btn-light btn-block">
+                                <img class="my-2" width="50%" src="https://i.imgur.com/2HV78Pn.png">
+                            </button>
+                            <button id="use-dapper-btn" class="btn btn-light btn-block">
+                                <img class="my-2" width="50%" src="https://i.imgur.com/GEM6grZ.png">
+                            </button>
+                            <button id="use-torus-btn" class="btn btn-light btn-block">
+                                <img class="my-2" width="50%" src="https://i.imgur.com/1EL9dlf.png">
+                            </button>
+                            <button id="use-portis-btn" class="btn btn-light btn-block">
+                                <img class="my-2" width="50%" src="https://i.imgur.com/3oXNS7K.png">
+                            </button>
+                            <button id="use-ledger-btn" class="btn btn-light btn-block">
+                                <img class="my-2" width="50%" src="https://i.imgur.com/vlxG8lN.png">
+                            </button>
+                            <button id="use-wc-btn" class="btn btn-light btn-block">
+                                <h6 class="my-2 text-primary">Connect Mobile Wallet</h6>
+                            </button>
                         </div>
-                        <div class="sk-folding-cube">
-                            <div class="sk-cube1 sk-cube"></div>
-                            <div class="sk-cube2 sk-cube"></div>
-                            <div class="sk-cube4 sk-cube"></div>
-                            <div class="sk-cube3 sk-cube"></div>
+                        <div id="spinner" style="display: none;">
+                            <div class="text-center">
+                                <h6 class="h6">Connecting...</h6>
+                            </div>
+                            <div class="sk-folding-cube">
+                                <div class="sk-cube1 sk-cube"></div>
+                                <div class="sk-cube2 sk-cube"></div>
+                                <div class="sk-cube4 sk-cube"></div>
+                                <div class="sk-cube3 sk-cube"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="help-button" class="btn btn-link mr-auto p-0 text-primary font-weight-light">Help</button>
-                    <div>
-                        <text class="font-weight-light">Powered by</text>
-                        <a class="font-weight-light" href="https://dappsdk.io/" target="_blank">Dapp SDK</a>
+                    <div class="modal-footer">
+                        <button id="help-button" class="btn btn-link mr-auto p-0 text-primary font-weight-light">Help</button>
+                        <div>
+                            <text class="font-weight-light">Powered by</text>
+                            <a class="font-weight-light" href="https://dappsdk.io/" target="_blank">Dapp SDK</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 `;
 
 module.exports = modal;
