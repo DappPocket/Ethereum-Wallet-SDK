@@ -1,5 +1,6 @@
 import getWallectConnector from './walletConnect';
 import RemoteLoginSubprovider from './dappSdkProvider';
+import { version } from '../package.json';
 
 const Web3 = require('web3');
 
@@ -14,6 +15,8 @@ require('../static/css/bootstrap-iso.css'); // version: 4.3.1
 let _defaultAddress;
 let engine;
 
+const rpcUrl = 'https://mainnet.infura.io/v3/056c00b3a8d846369185946435ca1ea3';
+
 const getDefaultAddress = () => {
     console.log('getDefaultAddress');
     if (_defaultAddress !== undefined) {
@@ -27,15 +30,16 @@ const getNetVersion = () => {
     return 1;
 };
 
-// Set window.ethereum
+// Create new web3 and set default account
 const defaultEnableCallback = (err, res) => {
     const { result } = res;
 
-    [_defaultAddress] = result;
+    // Create new web3
     const web3 = new Web3(window.ethereum);
+
+    // Set default account
+    [_defaultAddress] = result;
     web3.eth.defaultAccount = _defaultAddress;
-    web3.givenProvider = engine;
-    // web3.currentProvider.isDappPocket = true;
 
     window.web3 = web3;
 };
@@ -57,16 +61,19 @@ const initEngine = () => {
     // filters
     eng.addProvider(new SubscriptionSubprovider());
 
-    // data source
-    eng.addProvider(new RpcSubprovider({
-        rpcUrl: 'https://mainnet.infura.io/v3/056c00b3a8d846369185946435ca1ea3',
-    }));
+    // Add rpc data source
+    eng.addProvider(new RpcSubprovider({ rpcUrl }));
+
     eng.connected = true;
 
     eng.isConnected = () => true;
 
-    // wallet connect
+    // Create wallet connector
     const walletConnector = getWallectConnector();
+
+    // Set properties of Dapp SDK
+    eng.isDappSdk = true;
+    eng.dappSdk = { version };
 
     eng.enable = async (cb = () => {}) => {
         console.log('enable');
@@ -91,7 +98,10 @@ const initEngine = () => {
         return p;
     };
 
-    // Log out function, return promise
+    /**
+     * Log out from wallet connect
+     * Return Promise
+     */
     eng.logout = async (cb = () => {}) => {
         const p = new Promise((resolve, reject) => {
             if (!walletConnector.connected) {
@@ -115,6 +125,12 @@ const initEngine = () => {
     return eng;
 };
 
+// Create engine of Dapp SDK
 engine = initEngine();
 
+// Set engine and web3
 window.ethereum = engine;
+window.dappSdkProvider = engine;
+web3.givenProvider = engine;
+web3.currentProvider = engine;
+window.web3 = web3;
