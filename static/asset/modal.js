@@ -109,7 +109,7 @@ const modal =  `
                 <div class="modal-body">
                     <div id="walletGroup">
                         <div class="text-center">
-                            <h6 class="h6">Choose your favorite wallet</h6>
+                            <h6 class="h6" id="modal-intro"></h6>
                         </div>
                         <button id="use-metamask-btn" class="btn btn-light btn-block">
                             <img class="my-2" width="50%" src="https://i.imgur.com/2HV78Pn.png">
@@ -143,7 +143,11 @@ const modal =  `
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <text class="font-weight-light">Powered by Dapp SDK</text>
+                    <button id="help-button" class="btn btn-link mr-auto p-0 text-primary font-weight-light">Help</button>
+                    <div>
+                        <text class="font-weight-light">Powered by</text>
+                        <a class="font-weight-light" href="https://dappsdk.io/" target="_blank">Dapp SDK</a>
+                    </div>
                 </div>
             </div>
         </div>

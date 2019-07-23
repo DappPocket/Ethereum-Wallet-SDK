@@ -43,6 +43,9 @@ module.exports = {
         $('#dapp-icon').attr('src', iconSrc);
         // console.debug(window.location.href);
 
+        // Set modal intro
+        $('#modal-intro').text('Choose your favorite wallet');
+
         // Add dismiss handler
         const listener = () => {
             console.log('on dappQrcodeModal close');
@@ -166,7 +169,29 @@ module.exports = {
         //     });
         // });
 
-        // document.getElementById("qrcode").src=`http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=${encodeString}`;
+        $('#help-button').click(() => {
+            swal({
+                title: `Welcome to ${title}!`,
+                content: {
+                    element: 'div',
+                    attributes: {
+                        innerHTML: `
+                            You will need a <storng>Ethereum account</strong> to start exploring.
+                            You can get a Ethereum account from a wallet application.
+                            There are many wallets, here are the wallets we support:
+                            <a href="https://metamask.io/" target="_blank">MetaMask</a>,
+                            <a href="https://www.meetdapper.com" target="_blank">Dapper</a>,
+                            <a href="https://tor.us/" target="_blank">Torus</a>,
+                            <a href="https://www.portis.io/" target="_blank">Portis</a>,
+                            <a href="https://www.ledger.com/" target="_blank">Ledger</a>,
+                            and mobile wallet apps that support Wallet Connect like
+                            <a href="https://trustwallet.com/" target="_blank">Trust Wallet</a> and
+                            <a href="https://dapppocket.io/" target="_blank">Dapp Pocket</a>.
+                        `,
+                    },
+                },
+            });
+        });
 
         toggleQrcode();
     },
