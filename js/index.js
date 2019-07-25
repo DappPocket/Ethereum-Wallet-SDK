@@ -6,6 +6,8 @@ const SubscriptionSubprovider = require('web3-provider-engine/subproviders/subsc
 const RemoteLoginSubprovider = require('./dappSdkProvider');
 const StaticProvider = require('./staticProvider');
 
+require('../static/css/bootstrap-iso.css'); // version: 4.3.1
+
 // Get MetaMask provider
 windowProvider = window.ethereum;
 windowWeb3 = window.web3;
