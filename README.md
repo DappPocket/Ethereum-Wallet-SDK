@@ -11,7 +11,7 @@ npm run build
 ### How to test
 
 ```
-npm run server
+npm run start
 ```
 
 It will run a local Dapp website in http://localhost:8080/.
