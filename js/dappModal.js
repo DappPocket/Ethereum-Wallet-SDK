@@ -1,5 +1,5 @@
-import WalletConnect from '@walletconnect/browser';
 import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
+import { windowWeb3, windowProvider } from './global';
 
 const swal = require('sweetalert');
 const Portis = require('@portis/web3');
@@ -7,13 +7,6 @@ const Web3 = require('web3');
 const $ = require('jquery');
 require('bootstrap');
 const modal = require('../static/asset/modal');
-
-
-// const LocalMessageDuplexStream = require('post-message-stream');
-// const MetamaskInpageProvider = require('metamask-inpage-provider');
-
-// const WalletConnect = require("@walletconnect/browser");
-// const WalletConnectQRCodeModal = require("@walletconnect/qrcode-modal");
 
 const modalShow = () => {
     $('#dappQrcodeModal').modal('show');
@@ -33,12 +26,7 @@ const toggleQrcode = () => {
 };
 
 export default {
-
-<<<<<<< 7efcfc47ca814392b99829620ea5147553c4bcf3
-    showLoginQrcodeWithString: (string, end, onLoginSuccess = () => {}) => {
-=======
-    showLoginQrcodeWithString: (string, walletConnector, end, onLoginSuccess=()=>{}) => {
->>>>>>> Add logout/disconnect related codes.
+    showLoginQrcodeWithString: (string, walletConnector, end, onLoginSuccess = () => {}) => {
         // If modal not exist, append it?
         if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);
@@ -147,7 +135,7 @@ export default {
             }, 1000);
         });
 
-        $("#use-wc-btn").click(() => {
+        $('#use-wc-btn').click(() => {
             // Check if connection is already established
             if (!walletConnector.connected) {
                 $('#dappQrcodeModal').modal('hide');
@@ -158,14 +146,14 @@ export default {
                     const { uri } = walletConnector;
 
                     // display QR Code modal
-                    WalletConnectQRCodeModal.open(uri, () => {                        
+                    WalletConnectQRCodeModal.open(uri, () => {
                         console.debug('QR Code Modal closed');
                     });
                 });
             } else {
-                console.log('**** Should not be here.')
+                console.log('**** Should not be here.');
                 console.debug('walletConnector.connected');
-                console.log(walletConnector)
+                console.log(walletConnector);
             }
 
             // Subscribe to connection events
@@ -179,7 +167,6 @@ export default {
 
                 // Get provided accounts and chainId
                 const { accounts, chainId } = payload.params[0];
-
                 onLoginSuccess(true, accounts, walletConnector);
                 end(null, accounts);
             });

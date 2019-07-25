@@ -1,6 +1,5 @@
 import WalletConnect from '@walletconnect/browser';
 import RemoteLoginSubprovider from './dappSdkProvider';
-
 const Web3 = require('web3');
 
 const ProviderEngine = require('web3-provider-engine');
@@ -9,14 +8,6 @@ const SubscriptionSubprovider = require('web3-provider-engine/subproviders/subsc
 const StaticProvider = require('./staticProvider');
 
 require('../static/css/bootstrap-iso.css'); // version: 4.3.1
-
-// Get MetaMask provider
-// eslint-disable-next-line no-undef
-windowProvider = window.ethereum;
-// eslint-disable-next-line no-undef
-windowWeb3 = window.web3;
-console.log('windowProvider', windowProvider);
-console.log('windowWeb3', windowWeb3);
 
 // eslint-disable-next-line no-underscore-dangle
 let _defaultAddress;

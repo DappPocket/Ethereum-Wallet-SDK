@@ -1,10 +1,6 @@
 const { inherits } = require('util');
 const Subprovider = require('web3-provider-engine/subproviders/subprovider.js');
 
-module.exports = StaticProvider;
-
-inherits(StaticProvider, Subprovider);
-
 function StaticProvider(defaultAddressGenerator, defaulNetVersionGenerator) {
     const self = this;
     self.defaultAddressGenerator = defaultAddressGenerator;
@@ -26,23 +22,26 @@ function StaticProvider(defaultAddressGenerator, defaulNetVersionGenerator) {
     };
 }
 
-StaticProvider.prototype.handleRequest = function (payload, next, end) {
+inherits(StaticProvider, Subprovider);
+
+StaticProvider.prototype.handleRequest = function handleRequest(payload, next, end) {
     // just pass to other
     next();
 };
 
-StaticProvider.prototype.handleSyncRequest = function(payload) {
+StaticProvider.prototype.handleSyncRequest = function handleSyncRequest(payload) {
     const self = this;
     console.log('payload.method: ', payload.method);
-    var staticResponse = self.staticResponses[payload.method];
-    if ('function' === typeof staticResponse) {
+    const staticResponse = self.staticResponses[payload.method];
+    if (typeof staticResponse === 'function') {
         return staticResponse();
     // static response - null is valid response
     } if (staticResponse !== undefined) {
-        console.log(staticResponse)
+        console.log(staticResponse);
         return staticResponse;
     // no prepared response - skip
-    } else {
-        return null;
     }
+    return null;
 };
+
+module.exports = StaticProvider;

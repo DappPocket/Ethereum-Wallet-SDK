@@ -1,49 +1,49 @@
-const jwt = require('jsonwebtoken');
-
-const inherits = require('util').inherits
-const Subprovider = require('web3-provider-engine/subproviders/subprovider.js')
-const uuid = require("uuid");
 import dappModal from './dappModal';
 
-export default RemoteLoginSubprovider;
-
-inherits(RemoteLoginSubprovider, Subprovider)
+const { inherits } = require('util');
+const Subprovider = require('web3-provider-engine/subproviders/subprovider.js');
 
 function RemoteLoginSubprovider() {
-    var self = this;
+    const self = this;
     self.alreadyLogin = false;
     self.defaultAddress = '';
     self.walletConnector = null;
 }
 
-RemoteLoginSubprovider.prototype.handleRequest = function(payload, next, end){
-    var self = this;
+inherits(RemoteLoginSubprovider, Subprovider);
 
-    switch(payload.method) {
+RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload, next, end) {
+    const self = this;
+
+    switch (payload.method) {
         // enable
         case 'eth_requestAccounts': {
             console.debug('******* enable(), eth_requestAccounts *******');
-            const { payload: { walletConnector } } = payload
-            const qrcode_string = 'testforhackathon';
-            
+            const { payload: { walletConnector } } = payload;
+            const qrcodeString = 'testforhackathon';
+
             // If wc session is still alive
             if (walletConnector.connected) {
                 const { _accounts: accounts } = walletConnector;
                 self.alreadyLogin = true;
-                self.defaultAddress = accounts[0];
+                [self.defaultAddress] = accounts;
                 self.walletConnector = walletConnector;
                 end(null, accounts);
             } else {
-                dappModal.showLoginQrcodeWithString(qrcode_string, walletConnector, end, (login, accounts, walletConnector) => {
-                    self.alreadyLogin = login;
-                    self.defaultAddress = accounts[0];
-                    self.walletConnector = walletConnector;
-                });
+                dappModal.showLoginQrcodeWithString(
+                    qrcodeString,
+                    walletConnector,
+                    end,
+                    (login, accounts, connector) => {
+                        self.alreadyLogin = login;
+                        [self.defaultAddress] = accounts;
+                        self.walletConnector = connector;
+                    },
+                );
             }
-            
             break;
         }
-        
+
         case 'eth_coinbase': {
             console.log('eth_coinbase');
             end(null, self.defaultAddress);
@@ -64,17 +64,17 @@ RemoteLoginSubprovider.prototype.handleRequest = function(payload, next, end){
             const txData = payload.params[0];
             console.log('eth_sendTransaction txData: ', txData);
             self.walletConnector
-            .sendTransaction(txData)
-            .then(result => {
-                // Returns transaction id (hash)
-                console.log('result: ', result);
-                end(null, result);
-            })
-            .catch(error => {
-                // Error returned when rejected
-                console.log("error: ", error);
-                end(error);
-            });
+                .sendTransaction(txData)
+                .then((result) => {
+                    // Returns transaction id (hash)
+                    console.log('result: ', result);
+                    end(null, result);
+                })
+                .catch((error) => {
+                    // Error returned when rejected
+                    console.log('error: ', error);
+                    end(error);
+                });
             break;
         }
 
@@ -84,26 +84,23 @@ RemoteLoginSubprovider.prototype.handleRequest = function(payload, next, end){
             }
 
             console.log(payload.params);
-            const address = payload.params[0]
-            const data = payload.params[1]
+            const { params: [address, data] } = payload;
             // sign
             const msgParams = [
                 address,
                 data,
             ];
             self.walletConnector.signMessage(msgParams)
-            .then((result) => {
-                // Returns signature.
-                console.log('result: ', result);
-                end(null, result);
-            })
-            .catch(error => {
-                console.log(error);
-                // Error returned when rejected
-                console.log("error: ", error);
-                end(error);
-            });
-                
+                .then((result) => {
+                    // Returns signature.
+                    console.log('result: ', result);
+                    end(null, result);
+                })
+                .catch((error) => {
+                    // Error returned when rejected
+                    console.log('error: ', error);
+                    end(error);
+                });
             break;
         }
 
@@ -112,26 +109,23 @@ RemoteLoginSubprovider.prototype.handleRequest = function(payload, next, end){
         }
 
         case 'personal_sign': {       
-            const data = payload.params[0]
-            const address = payload.params[1]
-            const password = payload.params[2] || ""      
+            const { params: [data, address] } = payload.params[0];
             // personal sign
             const msgParams = [
                 data,
                 address,
             ];
             self.walletConnector.signPersonalMessage(msgParams)
-            .then((result) => {
-                // Returns signature.
-                console.log('result: ', result);
-                end(null, result);
-            })
-            .catch(error => {
-                // Error returned when rejected
-                console.error(error);
-                console.log("error: ", error);
-                end(error);
-            });
+                .then((result) => {
+                    // Returns signature.
+                    console.log('result: ', result);
+                    end(null, result);
+                })
+                .catch((error) => {
+                    // Error returned when rejected
+                    console.log('error: ', error);
+                    end(error);
+                });
             break;
         }
 
@@ -144,18 +138,6 @@ RemoteLoginSubprovider.prototype.handleRequest = function(payload, next, end){
             next();
         }
     }
-    
-}
+};
 
-const objectToQrueyString = (data) => {
-    let result = ''
-    for (let key in data) {
-        let value = data[key];
-        if (result === '') {
-            result = `${key}=${value}`;
-        } else {
-            result = `${result}&${key}=${value}`;
-        }
-    }
-    return result;
-}
+export default RemoteLoginSubprovider;
