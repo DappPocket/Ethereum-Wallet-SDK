@@ -1,5 +1,6 @@
-import WalletConnect from '@walletconnect/browser';
+import getWallectConnector from './walletConnect';
 import RemoteLoginSubprovider from './dappSdkProvider';
+
 const Web3 = require('web3');
 
 const ProviderEngine = require('web3-provider-engine');
@@ -29,8 +30,6 @@ const getNetVersion = () => {
 // Set window.ethereum
 const defaultEnableCallback = (err, res) => {
     const { result } = res;
-    console.debug(res);
-    console.debug(result);
 
     [_defaultAddress] = result;
     const web3 = new Web3(window.ethereum);
@@ -41,30 +40,6 @@ const defaultEnableCallback = (err, res) => {
     window.web3 = web3;
 };
 
-const setupWalletConnector = (walletConnector) => {
-    walletConnector.on('session_update', (error, payload) => {
-        if (error) {
-            throw error;
-        }
-
-        // Get updated accounts and chainId
-        const { accounts, chainId } = payload.params[0];
-        console.debug('on session_update', accounts, chainId);
-    });
-
-    walletConnector.on('disconnect', (error, payload) => {
-        if (error) {
-            throw error;
-        }
-
-        // Delete walletConnector
-        console.debug('on disconnect');
-        // eslint-disable-next-line no-alert
-        alert('Log out successfully.');
-        // eslint-disable-next-line no-restricted-globals
-        location.reload();
-    });
-};
 
 const initEngine = () => {
     const eng = new ProviderEngine();
@@ -91,13 +66,10 @@ const initEngine = () => {
     eng.isConnected = () => true;
 
     // wallet connect
-    const walletConnector = new WalletConnect({
-        bridge: 'https://bridge.walletconnect.org',
-    });
+    const walletConnector = getWallectConnector();
 
     eng.enable = async (cb = () => {}) => {
         console.log('enable');
-        setupWalletConnector(walletConnector);
         const p = new Promise((resolve, reject) => {
             const rpcData = {
                 method: 'eth_requestAccounts',
@@ -119,16 +91,25 @@ const initEngine = () => {
         return p;
     };
 
-    // Log out function
-    eng.logout = () => {
-        if (!walletConnector.connected) {
-            console.log('User does not log in with wallet connect.');
-        } else {
-            console.debug('walletConnector.connected');
-            console.log(walletConnector);
-            walletConnector.killSession();
-        }
+    // Log out function, return promise
+    eng.logout = async (cb = () => {}) => {
+        const p = new Promise((resolve, reject) => {
+            if (!walletConnector.connected) {
+                const err = new Error('User does not log in with wallet connect.')
+                cb(err, null);
+                reject(err);
+            } else {
+                walletConnector.killSession();
+                const res = {
+                    message: 'Logout successfully.',
+                };
+                cb(null, res);
+                resolve(res);
+            }
+        });
+        return p;
     };
+
     // start polling for blocks
     eng.start();
     return eng;
