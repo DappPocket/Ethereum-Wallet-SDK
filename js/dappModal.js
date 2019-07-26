@@ -7,6 +7,7 @@ require('bootstrap');
 
 const modal = require('../static/asset/modal');
 const { windowWeb3, windowProvider } = require('./global');
+const createLedgerWeb3 = require('./ledger');
 
 const modalShow = () => {
     $('#dappQrcodeModal').modal('show');
@@ -24,6 +25,19 @@ const modalStartLoading = () => {
 const toggleQrcode = () => {
     $('#dappQrcodeModal').modal();
 };
+
+const showLedgerDerivationPath = () => {
+    $('#walletGroup').hide();
+    $('#ledger-path').show();
+}
+
+const goBack = () => {
+    $('#ledger-path').hide();
+    $('#walletGroup').show();
+}
+
+const legacyPath = "44'/60'/0'/0"
+const ledgerLivePath = "44'/60'/0'/0/0"
 
 module.exports = {
     showLoginQrcodeWithString: (walletConnector, end, onLoginSuccess = () => {}) => {
@@ -139,6 +153,50 @@ module.exports = {
                     clearInterval(timerID);
                 }
             }, 1000);
+        });
+        $('#use-ledger-btn').click(async () => {
+            console.debug('Use Ledger');
+            showLedgerDerivationPath();
+            // Create web3 of Ledger
+            $('#go-back').click(() => {
+                goBack();
+            });
+            $('#use-legacy-path').click(async () => {
+                const engine = createLedgerWeb3(legacyPath);
+                web3 = new Web3(engine);
+
+                // Must call this or coinbase will not show address
+                const accounts = await web3.eth.getAccounts();
+                console.debug(accounts);
+
+                // Set default Account
+                web3.eth.defaultAccount = accounts[0];
+
+                // Set web3 and ethereum
+                window.web3 = web3;
+                window.ethereum = engine;
+
+                modalHide();
+                end(null, [accounts[0]]);
+            });
+            $('#use-ledger-live-path').click(async () => {
+                const engine = createLedgerWeb3(ledgerLivePath);
+                const web3 = new Web3(engine);
+
+                // Must call this or coinbase will not show address
+                const accounts = await web3.eth.getAccounts();
+                console.debug(accounts);
+
+                // Set default Account
+                web3.eth.defaultAccount = accounts[0];
+
+                // Set web3 and ethereum
+                window.web3 = web3;
+                window.ethereum = engine;
+
+                modalHide();
+                end(null, [accounts[0]]);
+            });
         });
         $('#use-wc-btn').click(() => {
             console.debug('Use WalletConnect');

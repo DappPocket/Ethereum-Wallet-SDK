@@ -19,6 +19,10 @@
   },
   "homepage": "https://github.com/Ankarrr/DappSDK#readme",
   "dependencies": {
+    "@babel/core": "^7.4.5",
+    "@ledgerhq/hw-transport-u2f": "^4.68.2",
+    "@ledgerhq/hw-transport-webusb": "^4.68.2",
+    "@ledgerhq/web3-subprovider": "^4.68.2",
     "@portis/web3": "^2.0.0-beta.30",
     "@toruslabs/torus-embed": "0.0.15",
     "@walletconnect/browser": "^1.0.0-beta.25",
