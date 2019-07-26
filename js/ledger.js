@@ -7,6 +7,8 @@ const createLedgerSubprovider = LedgerWalletProvider.default;
 
 const networkId = 1;
 const rpcUrl = 'https://mainnet.infura.io/v3/056c00b3a8d846369185946435ca1ea3';
+const legacyPath = "44'/60'/0'/0";
+const ledgerLivePath = "44'/60'/0'/0/0";
 
 /**
  * Create a provider engine of Ledger
@@ -14,8 +16,15 @@ const rpcUrl = 'https://mainnet.infura.io/v3/056c00b3a8d846369185946435ca1ea3';
  * Use U2F (it only works with HTTPS)
  * Based on the official example: https://github.com/LedgerHQ/ledgerjs/blob/master/docs/ethereum_ledger_integration.md#creating-a-web3-instance.
  */
-function createWeb3Engine(path) {
+function createWeb3Engine(pathName) {
     const engine = new ProviderEngine();
+    let path;
+    if (pathName === 'legacyPath') {
+        path = legacyPath;
+    } else {
+        path = ledgerLivePath;
+    }
+
     const getTransport = () => TransportU2F.create();
     const ledger = createLedgerSubprovider(getTransport, {
         networkId,
