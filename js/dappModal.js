@@ -1,15 +1,12 @@
+import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
+import { windowWeb3, windowProvider } from './global';
+
 const swal = require('sweetalert');
 const Portis = require('@portis/web3');
 const Web3 = require('web3');
 const $ = require('jquery');
 require('bootstrap');
 const modal = require('../static/asset/modal');
-
-// const LocalMessageDuplexStream = require('post-message-stream');
-// const MetamaskInpageProvider = require('metamask-inpage-provider');
-
-// const WalletConnect = require("@walletconnect/browser");
-// const WalletConnectQRCodeModal = require("@walletconnect/qrcode-modal");
 
 const modalShow = () => {
     $('#dappQrcodeModal').modal('show');
@@ -28,9 +25,8 @@ const toggleQrcode = () => {
     $('#dappQrcodeModal').modal();
 };
 
-module.exports = {
-
-    showLoginQrcodeWithString: (string, end, onModalDismiss = () => {}) => {
+export default {
+    showLoginQrcodeWithString: (string, walletConnector, end, onLoginSuccess = () => {}) => {
         // If modal not exist, append it?
         if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);
@@ -48,8 +44,7 @@ module.exports = {
 
         // Add dismiss handler
         const listener = () => {
-            console.log('on dappQrcodeModal close');
-            onModalDismiss();
+            console.debug('on dappQrcodeModal close');
             $('#dappQrcodeModal').off();
         };
 
@@ -139,35 +134,43 @@ module.exports = {
                 }
             }, 1000);
         });
-        // $("#use-wc-btn").click(() => {
-        //     console.debug('Use WC');
 
-        //     // Create a walletConnector
-        //     const walletConnector = new WalletConnect({
-        //         bridge: "https://bridge.walletconnect.org" // Required
-        //     });
+        $('#use-wc-btn').click(() => {
+            // Check if connection is already established
+            if (!walletConnector.connected) {
+                $('#dappQrcodeModal').modal('hide');
 
-        //     // Check if connection is already established
-        //     if (!walletConnector.connected) {
-        //         // create new session
-        //         walletConnector.createSession().then(() => {
-        //         // get uri for QR Code modal
-        //         const uri = walletConnector.uri;
-        //         // display QR Code modal
-        //         WalletConnectQRCodeModal.open(uri, () => {
-        //             console.log("QR Code Modal closed");
-        //         });
-        //         });
-        //     }
+                // create new session
+                walletConnector.createSession().then(() => {
+                    // get uri for QR Code modal
+                    const { uri } = walletConnector;
 
-        //     $('#dappQrcodeModal').modal('hide');
-        //     window.ethereum.enable().then((res) => {
-        //         console.debug('res: ', res);
-        //         end(null, res);
-        //     }).catch((err)=>{
-        //         end(err);
-        //     });
-        // });
+                    // display QR Code modal
+                    WalletConnectQRCodeModal.open(uri, () => {
+                        console.debug('QR Code Modal closed');
+                    });
+                });
+            } else {
+                console.log('**** Should not be here.');
+                console.debug('walletConnector.connected');
+                console.log(walletConnector);
+            }
+
+            // Subscribe to connection events
+            walletConnector.on('connect', (error, payload) => {
+                if (error) {
+                    throw error;
+                }
+
+                // Close QR Code Modal
+                WalletConnectQRCodeModal.close();
+
+                // Get provided accounts and chainId
+                const { accounts, chainId } = payload.params[0];
+                onLoginSuccess(true, accounts, walletConnector);
+                end(null, accounts);
+            });
+        });
 
         $('#help-button').click(() => {
             swal({

@@ -10,6 +10,14 @@ npm run build
 
 ### How to test
 
+1. Keep watch files and bundle script
+
+```
+npm run watch
+```
+
+2. Run test server
+
 ```
 npm run start
 ```

@@ -6,7 +6,13 @@
     <body>
         <h1>Sample Dapp</h1>
         <div id="login">
-            Login web3: <button id="login_button"> login </button>
+            Login web3:
+            <button id="login_button"> login </button>
+            <button id="logout_button" hidden> logout </button>
+        </div>
+        <div id="logout">
+            Logout web3:
+            <button id="logout_button"> logout </button>
         </div>
         <div>
             window.ethereum enable: <span id='ethereum_enable'></span>
@@ -30,13 +36,18 @@
             <br>
             web3 sign result: <span id='web3_sign_result'></span>
         </div>
+        <div>
+    		Web3 personal sign string 12345: 
+                <button id='web3_personal_sign_button' type='button'>Go</button>
+            <br>
+            web3 personal sign result: <span id='web3_personal_sign_result'></span>
+        </div>
         
         <div>
     		Web3 send 0.01 to 0x1952d797Ce4D282F6C83Ca32AE9840D869C9BDD1: 
                 <button id='web3_send_tx_button' type='button'>Go</button>
             <br>
             web3 tx hash: <span id='web3_tx_hash'></span>
-            web3 send tx receipt: <span id='web3_send_tx_receipt'></span>
         </div>
 
         <div>
@@ -68,6 +79,7 @@
 
 <script>
 // Web3 Login
+
 $("#login_button").click(() => {
     window.ethereum.enable().then(() => {
         console.debug('enable done.');
@@ -93,6 +105,13 @@ $("#login_button").click(() => {
     });
 });
 
+$("#logout").click(() => {
+    window.ethereum.logout().then((res) => {
+        console.log('logout done. res: ', res);
+    }).catch((err) => {
+        console.log('logout err: ', err);
+    });
+});
 // Web3 Sign
 $("#web3_sign_button").click(() => {
     web3.eth.sign('Sign 12345', web3.eth.defaultAccount, (err, result) => {
@@ -103,6 +122,10 @@ $("#web3_sign_button").click(() => {
 // Web3 Personal Sign
 $("#web3_personal_sign_button").click(() => {
     web3.eth.personal.sign('Personal Sign 12345', web3.eth.defaultAccount, '', (err, result) => {
+        if(err) {
+            console.log('err: ', JSON.stringify(err));
+            console.log(err);
+        }
         $('#web3_sign_result').html(result);
     });
 });
@@ -115,9 +138,12 @@ $("#web3_send_tx_button").click(() => {
         to: '0x1952d797Ce4D282F6C83Ca32AE9840D869C9BDD1',
         value: '1000000000000000',
         gas: 21000,
-    }, (e, r) => {
-        console.log('web3_send_tx_receipt');
-        $('#web3_send_tx_receipt').html(JSON.stringify(r));
+    }, (e, hash) => {
+        if(e) {
+            console.log('e: ', e);
+        }
+        console.log('web3_tx_hash');
+        $('#web3_tx_hash').html(hash);
     });
 });
 

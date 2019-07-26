@@ -1,153 +1,106 @@
-const jwt = require('jsonwebtoken');
+import dappModal from './dappModal';
 
-const inherits = require('util').inherits
-const Subprovider = require('web3-provider-engine/subproviders/subprovider.js')
-const uuid = require("uuid");
-const dappModal = require('./dappModal');
-
-module.exports = RemoteLoginSubprovider
-
-inherits(RemoteLoginSubprovider, Subprovider)
+const { inherits } = require('util');
+const Subprovider = require('web3-provider-engine/subproviders/subprovider.js');
 
 function RemoteLoginSubprovider() {
-    var self = this;
+    const self = this;
     self.alreadyLogin = false;
-    self.authToken = '';
+    self.defaultAddress = '';
+    self.walletConnector = null;
 }
 
-const CHECK_LOGIN_URL = 'https://us-central1-dapp-pocket.cloudfunctions.net/dappLoginTestFunction/auth';
-const SEND_REQUEST_URL = 'https://us-central1-dapp-pocket.cloudfunctions.net/dappSendTestFunction';
-const SEND_RESULT_URL = 'https://us-central1-dapp-pocket.cloudfunctions.net/dappSendTestFunction/result';
+inherits(RemoteLoginSubprovider, Subprovider);
 
-RemoteLoginSubprovider.prototype.handleRequest = function(payload, next, end){
-    var self = this;
+RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload, next, end) {
+    const self = this;
 
-    switch(payload.method) {
+    switch (payload.method) {
         // enable
         case 'eth_requestAccounts': {
             console.debug('******* enable(), eth_requestAccounts *******');
-            // if (self.alreadyLogin) {
-            //     console.log('already logged in');
-            // }
+            const { payload: { walletConnector } } = payload;
+            const qrcodeString = 'testforhackathon';
 
-            /*
-            // gen token
-            const uuidToken = uuid.v4();
-            const dappHost = window.location.host;
-            const title = document.title;
-            self.authToken = jwt.sign({
-                uuid: uuidToken,
-            }, 'dapp-pocket-login-secret', { expiresIn: 10 * 60 });
-            console.log(self.authToken);
-
-            // gen qrcode with token
-            const qrcode_string = `action=login&token=${self.authToken}&dapp=${title}&url=${dappHost}`;
-            */
-
-            const qrcode_string = 'testforhackathon';
-            dappModal.showLoginQrcodeWithString(qrcode_string, end, () => {
-                // Remove polling timer
-                // clearInterval(pollingTimer);
-            });
-            
-            /*
-            // polling login info with token every 3 sec
-            let pollingTimer = setInterval(() => {
-                const url = `${CHECK_LOGIN_URL}?authToken=${self.authToken}&url=${dappHost}`;
-                fetch(url).then((response) => {
-                    if (response.status === 200) {
-                        return response.json();
-                    }
-                    throw Error('404');
-                }).then((data) => {
-                    const { msg, account } = data;
-                    console.log(`account: ${account}`);
-                    self._defaultAddress = account;
-                    clearInterval(pollingTimer);
-                    dappModal.dismissQrcode();
-                    alreadyLogin = true;
-                    end(null, [self._defaultAddress]);
-                }).catch((err) => {
-                    console.log(`err: ${err}`);
-                });
-            }, 3000);
-            */
-
-            // end(null, ['test']);
-
+            // If wc session is still alive
+            if (walletConnector.connected) {
+                const { _accounts: accounts } = walletConnector;
+                self.alreadyLogin = true;
+                [self.defaultAddress] = accounts;
+                self.walletConnector = walletConnector;
+                end(null, accounts);
+            } else {
+                dappModal.showLoginQrcodeWithString(
+                    qrcodeString,
+                    walletConnector,
+                    end,
+                    (login, accounts, connector) => {
+                        self.alreadyLogin = login;
+                        [self.defaultAddress] = accounts;
+                        self.walletConnector = connector;
+                    },
+                );
+            }
             break;
         }
 
         case 'eth_coinbase': {
-            // if (self._defaultAddress === undefined) {
-            //     end(Error('Please login.'));
-            // } else {
-            //     end(null, self._defaultAddress);
-            // }
+            console.log('eth_coinbase');
+            end(null, self.defaultAddress);
             break;
         }
 
         case 'eth_accounts': {
-            // if (self._defaultAddress === undefined) {
-            //     end(Error('Please login.'));
-            // } else {
-            //     end(null, [self._defaultAddress]);
-            // }
+            console.log('eth_accounts');
+            end(null, [self.defaultAddress]);
             break;
         }
-        
+
         case 'eth_sendTransaction': {
             if (!self.alreadyLogin) {
                 end(Error('Please login.'));
             }
-            txData = payload.params[0]
-            if(!txData.gas) {
-                txData.gas = '0xf4240';
-            }
-            const sendRequestId = uuid.v4();
-            const data = {
-                txData, sendRequestId, authToken: self.authToken,
-            }
-            console.log(`token: ${self.authToken}`);
-            console.log(JSON.stringify(data));
-            // Send send tx request
-            fetch(SEND_REQUEST_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            }).then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                throw Error('404');
-            }).then((data) => {
-                console.log(data);
-            }).catch((err) => {
-                console.log(`err: ${err}`);
-            });
 
-            // polling send tx result with token every 3 sec
-            let pollingTimer = setInterval(() => {
-                const url = `${SEND_RESULT_URL}?authToken=${self.authToken}&sendRequestId=${sendRequestId}`;
-                fetch(url).then((response) => {
-                    if (response.status === 200) {
-                        return response.json();
-                    }
-                    throw Error('404');
-                }).then((data) => {
-                    clearInterval(pollingTimer);
-                    console.log(data);
-                    end(null, data);
-                }).catch((err) => {
-                    console.log(`err: ${err}`);
+            const txData = payload.params[0];
+            console.log('eth_sendTransaction txData: ', txData);
+            self.walletConnector
+                .sendTransaction(txData)
+                .then((result) => {
+                    // Returns transaction id (hash)
+                    console.log('result: ', result);
+                    end(null, result);
+                })
+                .catch((error) => {
+                    // Error returned when rejected
+                    console.log('error: ', error);
+                    end(error);
                 });
-            }, 3000);
             break;
         }
 
         case 'eth_sign': {
+            if (!self.alreadyLogin) {
+                end(Error('Please login.'));
+            }
+
+            console.log(payload.params);
+            const { params: [address, data] } = payload;
+            // sign
+            const msgParams = [
+                address,
+                data,
+            ];
+            self.walletConnector.signMessage(msgParams)
+                .then((result) => {
+                    // Returns signature.
+                    console.log('result: ', result);
+                    end(null, result);
+                })
+                .catch((error) => {
+                    // Error returned when rejected
+                    console.log('error: ', error);
+                    end(error);
+                });
             break;
         }
 
@@ -155,7 +108,24 @@ RemoteLoginSubprovider.prototype.handleRequest = function(payload, next, end){
             break;
         }
 
-        case 'personal_sign': {
+        case 'personal_sign': {       
+            const { params: [data, address] } = payload.params[0];
+            // personal sign
+            const msgParams = [
+                data,
+                address,
+            ];
+            self.walletConnector.signPersonalMessage(msgParams)
+                .then((result) => {
+                    // Returns signature.
+                    console.log('result: ', result);
+                    end(null, result);
+                })
+                .catch((error) => {
+                    // Error returned when rejected
+                    console.log('error: ', error);
+                    end(error);
+                });
             break;
         }
 
@@ -168,18 +138,6 @@ RemoteLoginSubprovider.prototype.handleRequest = function(payload, next, end){
             next();
         }
     }
-    
-}
+};
 
-const objectToQrueyString = (data) => {
-    let result = ''
-    for (let key in data) {
-        let value = data[key];
-        if (result === '') {
-            result = `${key}=${value}`;
-        } else {
-            result = `${result}&${key}=${value}`;
-        }
-    }
-    return result;
-}
+export default RemoteLoginSubprovider;
