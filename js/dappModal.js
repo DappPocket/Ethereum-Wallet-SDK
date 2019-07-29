@@ -32,6 +32,12 @@ export default {
             $('body').append(modal);
         }
 
+        if (window.isMobile) {
+            $('#use-metamask-btn').css('display', 'none');
+            $('#use-dapper-btn').css('display', 'none');
+            $('#use-ledger-btn').css('display', 'none');
+        }
+
         // Set modal title
         const title = $(document).find('title').text();
         $('#dapp-title').text(title);
@@ -51,7 +57,7 @@ export default {
         $('#dappQrcodeModal').on('hidden.bs.modal', listener);
 
         $('#use-metamask-btn').click(() => {
-            if (!windowProvider.isMetaMask) {
+            if (!(windowProvider && windowProvider.isMetaMask)) {
                 console.debug('Can\'t find MetaMask');
                 swal({ title: 'Can\'t find MetaMask', text: 'Please enable or install it in the app store of your browser.', icon: 'warning' });
                 return;
@@ -72,7 +78,7 @@ export default {
             });
         });
         $('#use-dapper-btn').click(() => {
-            if (!windowProvider.isDapper) {
+            if (!(windowProvider && windowProvider.isDapper)) {
                 console.debug('Can\'t find Dapper');
                 swal({ title: 'Can\'t find Dapper', text: 'Please enable or install it in the app store of your browser.', icon: 'warning' });
                 return;
@@ -134,44 +140,70 @@ export default {
                 }
             }, 1000);
         });
-
         $('#use-wc-btn').click(() => {
-            // Check if connection is already established
-            if (!walletConnector.connected) {
-                $('#dappQrcodeModal').modal('hide');
+            console.debug('Use WalletConnect');
 
-                // create new session
-                walletConnector.createSession().then(() => {
-                    // get uri for QR Code modal
-                    const { uri } = walletConnector;
-
-                    // display QR Code modal
-                    WalletConnectQRCodeModal.open(uri, () => {
-                        console.debug('QR Code Modal closed');
+            if (window.isMobile) { // Mobile
+                if (web3
+                    && web3.currentProvider
+                    && (web3.currentProvider.isDappPocket || web3.currentProvider.isTrust)) { // DappPocket
+                    window.ethereum.enable().then((res) => {
+                        console.debug('res: ', res);
+                        modalHide();
+                        end(null, res);
+                    }).catch((err) => {
+                        modalHide();
+                        end(err);
                     });
-                });
-            } else {
-                console.log('**** Should not be here.');
-                console.debug('walletConnector.connected');
-                console.log(walletConnector);
-            }
+                } else { // Web3-incompatible, e.g., Chrome, Firefox
+                    swal({
+                        title: 'Fasten your seat belts!',
+                        content: {
+                            element: 'div',
+                            attributes: {
+                                innerHTML: `
+                                    Download <a href="https://trustwallet.com/" target="_blank">Trust Wallet</a> or <a href="https://dapppocket.io/" target="_blank">Dapp Pocket</a> to explore the blockchain world!
+                                `,
+                            },
+                        },
+                    });
+                }
+            } else { // Broswer
+                if (!walletConnector.connected) {
+                    $('#dappQrcodeModal').modal('hide');
 
-            // Subscribe to connection events
-            walletConnector.on('connect', (error, payload) => {
-                if (error) {
-                    throw error;
+                    // create new session
+                    walletConnector.createSession().then(() => {
+                        // get uri for QR Code modal
+                        const { uri } = walletConnector;
+
+                        // display QR Code modal
+                        WalletConnectQRCodeModal.open(uri, () => {
+                            console.debug('QR Code Modal closed');
+                        });
+                    });
+                } else {
+                    console.log('**** Should not be here.');
+                    console.debug('walletConnector.connected');
+                    console.log(walletConnector);
                 }
 
-                // Close QR Code Modal
-                WalletConnectQRCodeModal.close();
+                // Subscribe to connection events
+                walletConnector.on('connect', (error, payload) => {
+                    if (error) {
+                        throw error;
+                    }
 
-                // Get provided accounts and chainId
-                const { accounts, chainId } = payload.params[0];
-                onLoginSuccess(true, accounts, walletConnector);
-                end(null, accounts);
-            });
+                    // Close QR Code Modal
+                    WalletConnectQRCodeModal.close();
+
+                    // Get provided accounts and chainId
+                    const { accounts, chainId } = payload.params[0];
+                    onLoginSuccess(true, accounts, walletConnector);
+                    end(null, accounts);
+                });
+            }
         });
-
         $('#help-button').click(() => {
             swal({
                 title: `Welcome to ${title}!`,

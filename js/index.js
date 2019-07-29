@@ -44,6 +44,9 @@ const defaultEnableCallback = (err, res) => {
 };
 
 
+const isMobile = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
+window.isMobile = isMobile;
+
 const initEngine = () => {
     const eng = new ProviderEngine();
 
