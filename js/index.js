@@ -13,7 +13,6 @@ require('../static/css/bootstrap-iso.css'); // version: 4.3.1
 
 // eslint-disable-next-line no-underscore-dangle
 let _defaultAddress;
-let engine;
 
 const rpcUrl = 'https://mainnet.infura.io/v3/056c00b3a8d846369185946435ca1ea3';
 
@@ -105,7 +104,7 @@ const initEngine = () => {
     eng.logout = async (cb = () => {}) => {
         const p = new Promise((resolve, reject) => {
             if (!walletConnector.connected) {
-                const err = new Error('User does not log in with wallet connect.')
+                const err = new Error('User does not log in with wallet connect.');
                 cb(err, null);
                 reject(err);
             } else {
@@ -126,7 +125,7 @@ const initEngine = () => {
 };
 
 // Create engine of Dapp SDK
-engine = initEngine();
+const engine = initEngine();
 
 // Set engine and web3
 window.ethereum = engine;
