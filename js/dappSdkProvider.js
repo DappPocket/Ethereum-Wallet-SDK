@@ -131,7 +131,7 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
 
 
         default: {
-            if (payload.method != 'eth_getBlockByNumber') {
+            if (payload.method !== 'eth_getBlockByNumber') {
                 // alert('payload.method: ' + payload.method);
                 // alert('payload.params: ' + JSON.stringify(payload.params));
             }

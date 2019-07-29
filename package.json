@@ -1,8 +1,8 @@
 {
   "name": "dappsdk",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "build": "webpack",
     "watch": "webpack -d --watch",
