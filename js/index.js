@@ -43,9 +43,7 @@ const defaultEnableCallback = (err, res) => {
     window.web3 = web3;
 };
 
-
 const isMobile = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
-window.isMobile = isMobile;
 
 const initEngine = () => {
     const eng = new ProviderEngine();
@@ -124,8 +122,12 @@ const initEngine = () => {
 
     // start polling for blocks
     eng.start();
+
     return eng;
 };
+
+// Set isMobile
+window.isMobile = isMobile;
 
 // Create engine of Dapp SDK
 const engine = initEngine();
@@ -133,6 +135,5 @@ const engine = initEngine();
 // Set engine and web3
 window.ethereum = engine;
 window.dappSdkProvider = engine;
-web3.givenProvider = engine;
-web3.currentProvider = engine;
+web3 = new Web3(engine);
 window.web3 = web3;
