@@ -144,16 +144,16 @@ module.exports = {
             console.debug('Use WalletConnect');
 
             if (window.isMobile) { // Mobile
-                if (web3
-                    && web3.currentProvider
-                    && (web3.currentProvider.isDappPocket || web3.currentProvider.isTrust)) { // DappPocket
-                    window.ethereum.enable().then((res) => {
-                        console.debug('res: ', res);
+                if (windowWeb3 && windowProvider) { // Web3-compatible wallets
+                    windowWeb3.eth.getAccounts((err, res) => {
+                        if (err) {
+                            modalHide();
+                            end(err);
+                        }
                         modalHide();
+                        window.web3 = windowWeb3;
+                        window.ethereum = windowProvider;
                         end(null, res);
-                    }).catch((err) => {
-                        modalHide();
-                        end(err);
                     });
                 } else { // Web3-incompatible, e.g., Chrome, Firefox
                     swal({
