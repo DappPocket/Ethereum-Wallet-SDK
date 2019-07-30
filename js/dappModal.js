@@ -1,12 +1,12 @@
-import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
-import { windowWeb3, windowProvider } from './global';
-
+const WalletConnectQRCodeModal = require('@walletconnect/qrcode-modal');
 const swal = require('sweetalert');
 const Portis = require('@portis/web3');
 const Web3 = require('web3');
 const $ = require('jquery');
 require('bootstrap');
+
 const modal = require('../static/asset/modal');
+const { windowWeb3, windowProvider } = require('./global');
 
 const modalShow = () => {
     $('#dappQrcodeModal').modal('show');
@@ -25,8 +25,8 @@ const toggleQrcode = () => {
     $('#dappQrcodeModal').modal();
 };
 
-export default {
-    showLoginQrcodeWithString: (string, walletConnector, end, onLoginSuccess = () => {}) => {
+module.exports = {
+    showLoginQrcodeWithString: (walletConnector, end, onLoginSuccess = () => {}) => {
         // If modal not exist, append it?
         if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);

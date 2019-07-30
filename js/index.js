@@ -1,15 +1,13 @@
+import Web3 from 'web3';
+import SubscriptionSubprovider from 'web3-provider-engine/subproviders/subscriptions';
+import ProviderEngine from 'web3-provider-engine';
+import RpcSubprovider from 'web3-provider-engine/subproviders/rpc';
 import getWallectConnector from './walletConnect';
 import RemoteLoginSubprovider from './dappSdkProvider';
+import StaticProvider from './staticProvider';
 import { version } from '../package.json';
 
-const Web3 = require('web3');
-
-const ProviderEngine = require('web3-provider-engine');
-const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js');
-const SubscriptionSubprovider = require('web3-provider-engine/subproviders/subscriptions');
-const StaticProvider = require('./staticProvider');
-
-require('../static/css/bootstrap-iso.css'); // version: 4.3.1
+import '../static/css/bootstrap-iso.css'; // version: 4.3.1
 
 // eslint-disable-next-line no-underscore-dangle
 let _defaultAddress;

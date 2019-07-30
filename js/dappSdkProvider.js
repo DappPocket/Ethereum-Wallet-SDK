@@ -1,7 +1,6 @@
-import dappModal from './dappModal';
-
 const { inherits } = require('util');
 const Subprovider = require('web3-provider-engine/subproviders/subprovider.js');
+const dappModal = require('./dappModal');
 
 function RemoteLoginSubprovider() {
     const self = this;
@@ -20,7 +19,6 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
         case 'eth_requestAccounts': {
             console.debug('******* enable(), eth_requestAccounts *******');
             const { payload: { walletConnector } } = payload;
-            const qrcodeString = 'testforhackathon';
 
             // If wc session is still alive
             if (walletConnector.connected) {
@@ -31,7 +29,6 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
                 end(null, accounts);
             } else {
                 dappModal.showLoginQrcodeWithString(
-                    qrcodeString,
                     walletConnector,
                     end,
                     (login, accounts, connector) => {
@@ -140,4 +137,4 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
     }
 };
 
-export default RemoteLoginSubprovider;
+module.exports = RemoteLoginSubprovider;
