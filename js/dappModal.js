@@ -1,4 +1,4 @@
-const WalletConnectQRCodeModal = require('@walletconnect/qrcode-modal');
+const WalletConnectQRCodeModal = require('@walletconnect/qrcode-modal').default;
 const swal = require('sweetalert');
 const Portis = require('@portis/web3');
 const Web3 = require('web3');
@@ -169,24 +169,21 @@ module.exports = {
                     });
                 }
             } else { // Broswer
-                if (!walletConnector.connected) {
-                    $('#dappQrcodeModal').modal('hide');
+                modalHide();
 
-                    // create new session
-                    walletConnector.createSession().then(() => {
-                        // get uri for QR Code modal
-                        const { uri } = walletConnector;
-
-                        // display QR Code modal
-                        WalletConnectQRCodeModal.open(uri, () => {
-                            console.debug('QR Code Modal closed');
-                        });
-                    });
-                } else {
-                    console.log('**** Should not be here.');
-                    console.debug('walletConnector.connected');
-                    console.log(walletConnector);
+                if (walletConnector.connected) {
+                    walletConnector.killSession();
                 }
+
+                // create new session
+                walletConnector.createSession().then(() => {
+                    // get uri for QR Code modal
+                    const { uri } = walletConnector;
+                    // display QR Code modal
+                    WalletConnectQRCodeModal.open(uri, () => {
+                        console.debug('QR Code Modal closed');
+                    });
+                });
 
                 // Subscribe to connection events
                 walletConnector.on('connect', (error, payload) => {
