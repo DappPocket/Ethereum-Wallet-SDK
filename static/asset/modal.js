@@ -127,6 +127,17 @@ const modal = `
                                 <h6 class="my-2 text-primary">Connect Mobile Wallet</h6>
                             </button>
                         </div>
+                        <div id="ledger-path" style="display: none;">
+                            <button id="go-back" class="btn btn-light btn-block">
+                                <h6 class="my-2 text-primary">← Back</h6>
+                            </button>
+                            <button id="use-legacy-path" class="btn btn-light btn-block">
+                                <h6 class="my-2 text-primary">MEW / MyCrypto - m/44'/60'/0'/0</h6>
+                            </button>
+                            <button id="use-ledger-live-path" class="btn btn-light btn-block">
+                                <h6 class="my-2 text-primary">Ledger Live - m/44'/60'/0'/0/0</h6>
+                            </button>
+                        </div>
                         <div id="spinner" style="display: none;">
                             <div class="text-center">
                                 <h6 class="h6">Connecting...</h6>

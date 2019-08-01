@@ -7,6 +7,8 @@ require('bootstrap');
 
 const modal = require('../static/asset/modal');
 const { windowWeb3, windowProvider } = require('./global');
+const createLedgerWeb3 = require('./ledger');
+const myAlert = require('./alert');
 
 const modalShow = () => {
     $('#dappQrcodeModal').modal('show');
@@ -23,6 +25,26 @@ const modalStartLoading = () => {
 
 const toggleQrcode = () => {
     $('#dappQrcodeModal').modal();
+};
+
+const showLedgerDerivationPath = () => {
+    $('#walletGroup').hide();
+    $('#ledger-path').show();
+};
+
+const ledgerPathGoBack = () => {
+    $('#ledger-path').hide();
+    $('#walletGroup').show();
+};
+
+const ledgerStartLoading = () => {
+    $('#ledger-path').hide();
+    $('#spinner').show();
+};
+
+const ledgerLoadingTimeOut = () => {
+    $('#spinner').hide();
+    $('#walletGroup').show();
 };
 
 module.exports = {
@@ -59,7 +81,7 @@ module.exports = {
         $('#use-metamask-btn').click(() => {
             if (!(windowProvider && windowProvider.isMetaMask)) {
                 console.debug('Can\'t find MetaMask');
-                swal({ title: 'Can\'t find MetaMask', text: 'Please enable or install it in the app store of your browser.', icon: 'warning' });
+                myAlert.metamask();
                 return;
             }
             console.debug('Use MetaMask');
@@ -69,7 +91,7 @@ module.exports = {
 
             modalStartLoading();
             window.ethereum.enable().then((res) => {
-                console.log('res: ', res);
+                console.debug('res: ', res);
                 modalHide();
                 end(null, res);
             }).catch((err) => {
@@ -80,7 +102,7 @@ module.exports = {
         $('#use-dapper-btn').click(() => {
             if (!(windowProvider && windowProvider.isDapper)) {
                 console.debug('Can\'t find Dapper');
-                swal({ title: 'Can\'t find Dapper', text: 'Please enable or install it in the app store of your browser.', icon: 'warning' });
+                myAlert.dapper();
                 return;
             }
 
@@ -91,7 +113,7 @@ module.exports = {
 
             modalStartLoading();
             window.ethereum.enable().then((res) => {
-                console.log('res: ', res);
+                console.debug('res: ', res);
                 modalHide();
                 end(null, res);
             }).catch((err) => {
@@ -136,9 +158,65 @@ module.exports = {
                         modalHide();
                         end(err);
                     });
+
                     clearInterval(timerID);
                 }
             }, 1000);
+        });
+        $('#use-ledger-btn').click(async () => {
+            console.debug('Use Ledger');
+            showLedgerDerivationPath();
+            $('#go-back').click(() => {
+                ledgerPathGoBack();
+            });
+            $('#use-legacy-path').click(async () => {
+                ledgerStartLoading();
+                // Create web3 of Ledger
+                const engine = createLedgerWeb3('legacyPath');
+                const web3 = new Web3(engine);
+
+                // Must call this or coinbase will not show address
+                let accounts;
+                try {
+                    accounts = await web3.eth.getAccounts();
+                    console.debug(accounts);
+                    // Set default Account
+                    const [firstAccount, ...rest] = accounts;
+                    web3.eth.defaultAccount = firstAccount;
+                    // Set web3 and ethereum
+                    window.web3 = web3;
+                    window.ethereum = engine;
+                    modalHide();
+                    end(null, [firstAccount]);
+                } catch (e) {
+                    myAlert.ledger();
+                    ledgerLoadingTimeOut();
+                }
+            });
+            $('#use-ledger-live-path').click(async () => {
+                ledgerStartLoading();
+                // Create web3 of Ledger
+                const engine = createLedgerWeb3('ledgerLivePath');
+                const web3 = new Web3(engine);
+
+                // Must call this or coinbase will not show address
+                let accounts;
+                try {
+                    accounts = await web3.eth.getAccounts();
+                    console.debug(accounts);
+                    // Set default Account
+                    const [firstAccount, ...rest] = accounts;
+                    web3.eth.defaultAccount = firstAccount;
+                    // Set web3 and ethereum
+                    window.web3 = web3;
+                    window.ethereum = engine;
+                    modalHide();
+                    end(null, [firstAccount]);
+                } catch (e) {
+                    myAlert.ledger();
+                    ledgerLoadingTimeOut();
+                }
+            });
         });
         $('#use-wc-btn').click(() => {
             console.debug('Use WalletConnect');
@@ -202,27 +280,7 @@ module.exports = {
             }
         });
         $('#help-button').click(() => {
-            swal({
-                title: `Welcome to ${title}!`,
-                content: {
-                    element: 'div',
-                    attributes: {
-                        innerHTML: `
-                            You will need a <storng>Ethereum account</strong> to start exploring.
-                            You can get a Ethereum account from a wallet application.
-                            There are many wallets, here are the wallets we support:
-                            <a href="https://metamask.io/" target="_blank">MetaMask</a>,
-                            <a href="https://www.meetdapper.com" target="_blank">Dapper</a>,
-                            <a href="https://tor.us/" target="_blank">Torus</a>,
-                            <a href="https://www.portis.io/" target="_blank">Portis</a>,
-                            <a href="https://www.ledger.com/" target="_blank">Ledger</a>,
-                            and mobile wallet apps that support Wallet Connect like
-                            <a href="https://trustwallet.com/" target="_blank">Trust Wallet</a> and
-                            <a href="https://dapppocket.io/" target="_blank">Dapp Pocket</a>.
-                        `,
-                    },
-                },
-            });
+            myAlert.help(title);
         });
 
         toggleQrcode();
