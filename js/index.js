@@ -1,15 +1,13 @@
+import Web3 from 'web3';
+import SubscriptionSubprovider from 'web3-provider-engine/subproviders/subscriptions';
+import ProviderEngine from 'web3-provider-engine';
+import RpcSubprovider from 'web3-provider-engine/subproviders/rpc';
 import getWallectConnector from './walletConnect';
 import RemoteLoginSubprovider from './dappSdkProvider';
+import StaticProvider from './staticProvider';
 import { version } from '../package.json';
 
-const Web3 = require('web3');
-
-const ProviderEngine = require('web3-provider-engine');
-const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js');
-const SubscriptionSubprovider = require('web3-provider-engine/subproviders/subscriptions');
-const StaticProvider = require('./staticProvider');
-
-require('../static/css/bootstrap-iso.css'); // version: 4.3.1
+import '../static/css/bootstrap-iso.css'; // version: 4.3.1
 
 // eslint-disable-next-line no-underscore-dangle
 let _defaultAddress;
@@ -43,9 +41,7 @@ const defaultEnableCallback = (err, res) => {
     window.web3 = web3;
 };
 
-
 const isMobile = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
-window.isMobile = isMobile;
 
 const initEngine = () => {
     const eng = new ProviderEngine();
@@ -124,8 +120,12 @@ const initEngine = () => {
 
     // start polling for blocks
     eng.start();
+
     return eng;
 };
+
+// Set isMobile
+window.isMobile = isMobile;
 
 // Create engine of Dapp SDK
 const engine = initEngine();
@@ -133,6 +133,5 @@ const engine = initEngine();
 // Set engine and web3
 window.ethereum = engine;
 window.dappSdkProvider = engine;
-web3.givenProvider = engine;
-web3.currentProvider = engine;
+web3 = new Web3(engine);
 window.web3 = web3;

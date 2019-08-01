@@ -1,7 +1,6 @@
-import dappModal from './dappModal';
-
 const { inherits } = require('util');
 const Subprovider = require('web3-provider-engine/subproviders/subprovider.js');
+const dappModal = require('./dappModal');
 
 function RemoteLoginSubprovider() {
     const self = this;
@@ -20,27 +19,19 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
         case 'eth_requestAccounts': {
             console.debug('******* enable(), eth_requestAccounts *******');
             const { payload: { walletConnector } } = payload;
-            const qrcodeString = 'testforhackathon';
 
-            // If wc session is still alive
-            if (walletConnector.connected) {
-                const { _accounts: accounts } = walletConnector;
-                self.alreadyLogin = true;
-                [self.defaultAddress] = accounts;
-                self.walletConnector = walletConnector;
-                end(null, accounts);
-            } else {
-                dappModal.showLoginQrcodeWithString(
-                    qrcodeString,
-                    walletConnector,
-                    end,
-                    (login, accounts, connector) => {
-                        self.alreadyLogin = login;
-                        [self.defaultAddress] = accounts;
-                        self.walletConnector = connector;
-                    },
-                );
-            }
+            console.debug(walletConnector);
+
+            dappModal.showLoginQrcodeWithString(
+                walletConnector,
+                end,
+                (login, accounts, connector) => {
+                    self.alreadyLogin = login;
+                    [self.defaultAddress] = accounts;
+                    self.walletConnector = connector;
+                },
+            );
+
             break;
         }
 
@@ -140,4 +131,4 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
     }
 };
 
-export default RemoteLoginSubprovider;
+module.exports = RemoteLoginSubprovider;

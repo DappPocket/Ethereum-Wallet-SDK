@@ -1,12 +1,12 @@
-import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
-import { windowWeb3, windowProvider } from './global';
-
+const WalletConnectQRCodeModal = require('@walletconnect/qrcode-modal').default;
 const swal = require('sweetalert');
 const Portis = require('@portis/web3');
 const Web3 = require('web3');
 const $ = require('jquery');
 require('bootstrap');
+
 const modal = require('../static/asset/modal');
+const { windowWeb3, windowProvider } = require('./global');
 
 const modalShow = () => {
     $('#dappQrcodeModal').modal('show');
@@ -25,8 +25,8 @@ const toggleQrcode = () => {
     $('#dappQrcodeModal').modal();
 };
 
-export default {
-    showLoginQrcodeWithString: (string, walletConnector, end, onLoginSuccess = () => {}) => {
+module.exports = {
+    showLoginQrcodeWithString: (walletConnector, end, onLoginSuccess = () => {}) => {
         // If modal not exist, append it?
         if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);
@@ -144,16 +144,16 @@ export default {
             console.debug('Use WalletConnect');
 
             if (window.isMobile) { // Mobile
-                if (web3
-                    && web3.currentProvider
-                    && (web3.currentProvider.isDappPocket || web3.currentProvider.isTrust)) { // DappPocket
-                    window.ethereum.enable().then((res) => {
-                        console.debug('res: ', res);
+                if (windowWeb3 && windowProvider) { // Web3-compatible wallets
+                    windowWeb3.eth.getAccounts((err, res) => {
+                        if (err) {
+                            modalHide();
+                            end(err);
+                        }
                         modalHide();
+                        window.web3 = windowWeb3;
+                        window.ethereum = windowProvider;
                         end(null, res);
-                    }).catch((err) => {
-                        modalHide();
-                        end(err);
                     });
                 } else { // Web3-incompatible, e.g., Chrome, Firefox
                     swal({
@@ -169,24 +169,21 @@ export default {
                     });
                 }
             } else { // Broswer
-                if (!walletConnector.connected) {
-                    $('#dappQrcodeModal').modal('hide');
+                modalHide();
 
-                    // create new session
-                    walletConnector.createSession().then(() => {
-                        // get uri for QR Code modal
-                        const { uri } = walletConnector;
-
-                        // display QR Code modal
-                        WalletConnectQRCodeModal.open(uri, () => {
-                            console.debug('QR Code Modal closed');
-                        });
-                    });
-                } else {
-                    console.log('**** Should not be here.');
-                    console.debug('walletConnector.connected');
-                    console.log(walletConnector);
+                if (walletConnector.connected) {
+                    walletConnector.killSession();
                 }
+
+                // create new session
+                walletConnector.createSession().then(() => {
+                    // get uri for QR Code modal
+                    const { uri } = walletConnector;
+                    // display QR Code modal
+                    WalletConnectQRCodeModal.open(uri, () => {
+                        console.debug('QR Code Modal closed');
+                    });
+                });
 
                 // Subscribe to connection events
                 walletConnector.on('connect', (error, payload) => {

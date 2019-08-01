@@ -32,6 +32,7 @@ const getWallectConnector = () => {
     });
 
     setupWalletConnector(walletConnector);
+
     return walletConnector;
 };
 
