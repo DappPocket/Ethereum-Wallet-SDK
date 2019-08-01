@@ -54,21 +54,21 @@ module.exports = {
             $('body').append(modal);
         }
 
+        // Set modal title
+        const title = `Sign in ${$(document).find('title').text()}`;
+        $('#dapp-title').text(title);
+        const iconSrc = `https://www.google.com/s2/favicons?domain=${window.location.href}`;
+        $('#dapp-icon').attr('src', iconSrc);
+
+        // Set modal intro
+        $('#modal-intro').text('Choose your favorite wallet');
+
+        // Hide wallets that don't support mobile
         if (window.isMobile) {
             $('#use-metamask-btn').css('display', 'none');
             $('#use-dapper-btn').css('display', 'none');
             $('#use-ledger-btn').css('display', 'none');
         }
-
-        // Set modal title
-        const title = $(document).find('title').text();
-        $('#dapp-title').text(title);
-        const iconSrc = `https://www.google.com/s2/favicons?domain=${window.location.href}`;
-        $('#dapp-icon').attr('src', iconSrc);
-        // console.debug(window.location.href);
-
-        // Set modal intro
-        $('#modal-intro').text('Choose your favorite wallet');
 
         // Add dismiss handler
         const listener = () => {
@@ -235,7 +235,7 @@ module.exports = {
                     });
                 } else { // Web3-incompatible, e.g., Chrome, Firefox
                     swal({
-                        title: 'Fasten your seat belts!',
+                        title: 'Unsupported Browser',
                         content: {
                             element: 'div',
                             attributes: {
@@ -246,7 +246,7 @@ module.exports = {
                         },
                     });
                 }
-            } else { // Broswer
+            } else { // PC/MAC Broswer
                 modalHide();
 
                 if (walletConnector.connected) {

@@ -89,6 +89,10 @@ const modal = `
                     opacity: 0; 
                 }
             }
+
+            .wallet-button-img {
+                width: 40%;
+            }
         </style>
     </head>
     <!-- Modal -->
@@ -97,8 +101,8 @@ const modal = `
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header align-items-center">
-                        <img id="dapp-icon" class="mr-2" style="max-width: 20px;" src="https://images.cointelegraph.com/images/240_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS9zdG9yYWdlL3VwbG9hZHMvdmlldy8wZWNiY2NiNDI0NWQ2MThmMGI0MzUxNGQ0Y2QxZTg1NS5wbmc=.png">
-                        <h4 id="dapp-title" class="h4 mb-0">Welcome</h6>
+                        <img id="dapp-icon" class="mr-3" style="max-width: 20px;" src="https://images.cointelegraph.com/images/240_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS9zdG9yYWdlL3VwbG9hZHMvdmlldy8wZWNiY2NiNDI0NWQ2MThmMGI0MzUxNGQ0Y2QxZTg1NS5wbmc=.png">
+                        <h4 id="dapp-title" class="h4 mb-0">Sign in</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -106,25 +110,25 @@ const modal = `
                     <div class="modal-body">
                         <div id="walletGroup">
                             <div class="text-center">
-                                <h6 class="h6" id="modal-intro"></h6>
+                                <h6 class="h6 mb-3 font-weight-light" id="modal-intro"></h6>
                             </div>
                             <button id="use-metamask-btn" class="btn btn-light btn-block">
-                                <img class="my-2" width="50%" src="https://i.imgur.com/2HV78Pn.png">
+                                <img class="my-2 wallet-button-img" src="https://i.imgur.com/2HV78Pn.png">
                             </button>
                             <button id="use-dapper-btn" class="btn btn-light btn-block">
-                                <img class="my-2" width="50%" src="https://i.imgur.com/GEM6grZ.png">
+                                <img class="my-2 wallet-button-img" src="https://i.imgur.com/GEM6grZ.png">
                             </button>
                             <button id="use-torus-btn" class="btn btn-light btn-block">
-                                <img class="my-2" width="50%" src="https://i.imgur.com/1EL9dlf.png">
+                                <img class="my-2 wallet-button-img" src="https://i.imgur.com/1EL9dlf.png">
                             </button>
                             <button id="use-portis-btn" class="btn btn-light btn-block">
-                                <img class="my-2" width="50%" src="https://i.imgur.com/3oXNS7K.png">
+                                <img class="my-2 wallet-button-img" src="https://i.imgur.com/3oXNS7K.png">
                             </button>
                             <button id="use-ledger-btn" class="btn btn-light btn-block">
-                                <img class="my-2" width="50%" src="https://i.imgur.com/vlxG8lN.png">
+                                <img class="my-2 wallet-button-img" src="https://i.imgur.com/vlxG8lN.png">
                             </button>
                             <button id="use-wc-btn" class="btn btn-light btn-block">
-                                <h6 class="my-2 text-primary">Connect Mobile Wallet</h6>
+                                <h4 class="my-2 text-primary">Connect Mobile Wallet</h4>
                             </button>
                         </div>
                         <div id="ledger-path" style="display: none;">
@@ -153,7 +157,7 @@ const modal = `
                     <div class="modal-footer">
                         <button id="help-button" class="btn btn-link mr-auto p-0 text-primary font-weight-light">Help</button>
                         <div>
-                            <text class="font-weight-light">Powered by</text>
+                            <text class="font-weight-light text-secondary">Powered by</text>
                             <a class="font-weight-light" href="https://dappsdk.io/" target="_blank">Dapp SDK</a>
                         </div>
                     </div>

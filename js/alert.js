@@ -14,7 +14,7 @@ const dapper = () => swal({
 
 const ledger = () => swal({
     title: 'Can\'t find Ledger',
-    text: 'Please check your Ledger wallet is connected and navigate to the Ethereum app.',
+    text: 'Please check your Ledger wallet is connect to your computer and navigate to the Ethereum app.',
     icon: 'warning',
 });
 
