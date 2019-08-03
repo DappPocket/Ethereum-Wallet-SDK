@@ -18,8 +18,8 @@ const ledger = () => swal({
     icon: 'warning',
 });
 
-const help = title => swal({
-    title: `Welcome to ${title}!`,
+const help = () => swal({
+    title: `Welcome to ${document.title}!`,
     content: {
         element: 'div',
         attributes: {

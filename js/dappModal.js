@@ -280,7 +280,7 @@ module.exports = {
             }
         });
         $('#help-button').click(() => {
-            myAlert.help(title);
+            myAlert.help();
         });
 
         toggleQrcode();
