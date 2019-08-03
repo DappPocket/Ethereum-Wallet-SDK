@@ -130,6 +130,9 @@ const modal = `
                             <button id="use-wc-btn" class="btn btn-light btn-block">
                                 <h4 class="my-2 text-primary">Connect Mobile Wallet</h4>
                             </button>
+                            <div id="more-options" class="text-center" style="display: none;">
+                                <h6 class="my-3 text-secondary">More options on PC/Mac</h6>
+                            </div>
                         </div>
                         <div id="ledger-path" style="display: none;">
                             <button id="go-back" class="btn btn-light btn-block">

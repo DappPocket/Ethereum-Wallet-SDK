@@ -68,6 +68,7 @@ module.exports = {
             $('#use-metamask-btn').css('display', 'none');
             $('#use-dapper-btn').css('display', 'none');
             $('#use-ledger-btn').css('display', 'none');
+            $('#more-options').css('display', 'block');
         }
 
         // Add dismiss handler
