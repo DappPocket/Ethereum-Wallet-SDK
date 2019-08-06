@@ -14,8 +14,26 @@ const dapper = () => swal({
 
 const ledger = () => swal({
     title: 'Can\'t find Ledger',
-    text: 'Please check your Ledger wallet is connect to your computer and navigate to the Ethereum app.',
+    text: 'Please check your Ledger wallet is connected to your computer and navigate to the Ethereum app.',
     icon: 'warning',
+});
+
+const trezor = () => swal({
+    title: 'Can\'t find Trezor',
+    text: 'Please check your trezor wallet is connected to your computer.',
+    icon: 'warning',
+});
+
+const wcUnsupport = () => swal({
+    title: 'Unsupported Browser',
+    content: {
+        element: 'div',
+        attributes: {
+            innerHTML: `
+                Download <a href="https://trustwallet.com/" target="_blank">Trust Wallet</a> or <a href="https://dapppocket.io/" target="_blank">Dapp Pocket</a> to explore the blockchain world!
+            `,
+        },
+    },
 });
 
 const help = () => swal({
@@ -44,5 +62,7 @@ module.exports = {
     metamask,
     dapper,
     ledger,
+    trezor,
+    wcUnsupport,
     help,
 };
