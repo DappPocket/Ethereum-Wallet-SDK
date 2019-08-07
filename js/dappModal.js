@@ -10,6 +10,7 @@ const { windowWeb3, windowProvider } = require('./global');
 const createLedgerWeb3 = require('./ledger');
 const myAlert = require('./alert');
 const createTrezorEngine = require('./trezorEngine').default;
+const config = require('./config.js').default;
 
 const modalHide = () => {
     $('#dappQrcodeModal').modal('hide');
@@ -79,6 +80,7 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
         window.ethereum = windowProvider;
         window.web3 = windowWeb3;
 
+
         modalStartLoading();
         window.ethereum.enable().then((res) => {
             console.debug('res: ', res);
@@ -92,7 +94,7 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
     $('#use-portis-btn').click(() => {
         console.debug('Use Portis');
 
-        const portis = new Portis('696237e9-38fb-406a-a4d6-bfa3a4d63293', 'mainnet');
+        const portis = new Portis('696237e9-38fb-406a-a4d6-bfa3a4d63293', config.network);
         const web3 = new Web3(portis.provider);
         window.ethereum = portis.provider;
         window.web3 = web3;

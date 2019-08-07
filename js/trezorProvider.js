@@ -3,6 +3,8 @@ const Subprovider = require('web3-provider-engine/subproviders/subprovider.js');
 const TrezorConnect = require('trezor-connect').default;
 const EthereumTx = require('ethereumjs-tx').Transaction;
 
+const config = require('./config').default;
+
 function CustomTrezorSubprovider(account) {
     const self = this;
     self.defaultAddress = account;
@@ -36,13 +38,13 @@ CustomTrezorSubprovider.prototype.handleRequest = async function handleRequest(p
                 path: trezorPath,
                 transaction: {
                     ...txData,
-                    chainId: 1, // 1 for Mainnet, 3 for Ropsten
+                    chainId: config.chainId,
                 },
             });
             const txSignature = result.payload; // v: recover ID, r s : ECDSA signature
             const newTxData = { ...txData, ...txSignature };
 
-            const tx = new EthereumTx(newTxData, { chain: 'mainnet' }); // mainnet, ropsten
+            const tx = new EthereumTx(newTxData, { chain: config.network });
             const rawTx = `0x${tx.serialize().toString('hex')}`;
             window.web3.eth.sendSignedTransaction(rawTx)
                 .on('transactionHash', (hash) => { end(null, hash); })

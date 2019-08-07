@@ -6,13 +6,14 @@ import getWallectConnector from './walletConnect';
 import RemoteLoginSubprovider from './dappSdkProvider';
 import StaticProvider from './staticProvider';
 import { version } from '../package.json';
+import config from './config';
 
 import '../static/css/bootstrap-iso.css'; // version: 4.3.1
 
 // eslint-disable-next-line no-underscore-dangle
 let _defaultAddress;
 
-const rpcUrl = 'https://mainnet.infura.io/v3/056c00b3a8d846369185946435ca1ea3';
+const { rpcUrl } = config;
 
 const getDefaultAddress = () => {
     console.log('getDefaultAddress');

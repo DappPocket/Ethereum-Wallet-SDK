@@ -6,10 +6,12 @@ const SubscriptionSubprovider = require('web3-provider-engine/subproviders/subsc
 const CustomTrezorSubprovider = require('./trezorProvider');
 const StaticProvider = require('./staticProvider');
 
+const config = require('./config').default;
+
 // eslint-disable-next-line no-underscore-dangle
 let _defaultAddress;
 
-const rpcUrl = 'https://mainnet.infura.io/v3/056c00b3a8d846369185946435ca1ea3';
+const { rpcUrl } = config;
 
 const getDefaultAddress = () => {
     if (_defaultAddress !== undefined) {
