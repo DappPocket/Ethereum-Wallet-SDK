@@ -4,6 +4,7 @@ const Portis = require('@portis/web3');
 const Web3 = require('web3');
 const $ = require('jquery');
 require('bootstrap');
+const Torus = require('@toruslabs/torus-embed').default;
 
 const modal = require('../static/asset/modal');
 const { windowWeb3, windowProvider } = require('./global');
@@ -110,28 +111,39 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
             end(err);
         });
     });
-    $('#use-torus-btn').click(() => {
+    $('#use-torus-btn').click(async () => {
         console.debug('Use Torus');
 
-        // Create web3 of Torus
-        require('@toruslabs/torus-embed');
+        // Optional, if ture, reload or restore website will keep user web3 data
+        // const isTorus = sessionStorage.getItem('pageUsingTorus');
 
+        // Torus init
+        const torus = new Torus();
+        await torus.init();
         modalStartLoading();
-        const timerID = setInterval(() => {
-            // Check if Web3 of Torus is loaded
-            if (web3.currentProvider.isTorus) {
-                window.ethereum.enable().then((res) => {
-                    console.debug('res: ', res);
-                    modalHide();
-                    end(null, res);
-                }).catch((err) => {
-                    modalHide();
-                    end(err);
-                });
 
-                clearInterval(timerID);
-            }
-        }, 1000);
+        // Torus ethereum enable
+        // Is there different between torus.provider and torus.ethereum?
+        try {
+            await torus.ethereum.enable();
+            modalHide();
+        } catch (e) {
+            end(e);
+        }
+
+        // add to window
+        const torusProvider = torus.provider;
+        const web3 = new Web3(torusProvider);
+        window.ethereum = torusProvider;
+        window.web3 = web3;
+        try {
+            const accounts = await window.web3.eth.getAccounts();
+            end(null, accounts);
+            // Optional
+            // sessionStorage.setItem('pageUsingTorus', true);
+        } catch (e) {
+            end(e);
+        }
     });
     $('#use-ledger-btn').click(async () => {
         console.debug('Use Ledger');

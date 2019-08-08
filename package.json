@@ -24,7 +24,7 @@
     "@ledgerhq/hw-transport-webusb": "^4.68.2",
     "@ledgerhq/web3-subprovider": "^4.68.2",
     "@portis/web3": "^2.0.0-beta.30",
-    "@toruslabs/torus-embed": "0.0.15",
+    "@toruslabs/torus-embed": "0.0.25",
     "@walletconnect/browser": "^1.0.0-beta.25",
     "@walletconnect/qrcode-modal": "^1.0.0-beta.25",
     "@walletconnect/web3-subprovider": "^1.0.0-beta.25",
