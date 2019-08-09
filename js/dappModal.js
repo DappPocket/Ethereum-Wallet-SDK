@@ -43,7 +43,7 @@ const ledgerLoadingTimeOut = () => {
     $('#walletGroup').show();
 };
 
-const addWalletBtnListener = (walletConnector, onLoginSuccess) => {
+const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
     // add listener once
     $('#use-metamask-btn').click(() => {
         if (!(windowProvider && windowProvider.isMetaMask)) {
@@ -256,7 +256,7 @@ module.exports = {
         // If modal not exist, append it?
         if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);
-            addWalletBtnListener(walletConnector, onLoginSuccess);
+            addWalletBtnListener(walletConnector, end, onLoginSuccess);
 
             // Set modal title
             const title = `Sign in ${$(document).find('title').text()}`;
