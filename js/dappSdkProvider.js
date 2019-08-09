@@ -76,7 +76,6 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
 
             console.log(payload.params);
             const { params: [address, data] } = payload;
-            // sign
             const msgParams = [
                 address,
                 data,
@@ -99,9 +98,12 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
             break;
         }
 
-        case 'personal_sign': {       
-            const { params: [data, address] } = payload.params[0];
-            // personal sign
+        case 'personal_sign': {
+            if (!self.alreadyLogin) {
+                end(Error('Please login.'));
+            }
+
+            const { params: [data, address] } = payload;
             const msgParams = [
                 data,
                 address,
