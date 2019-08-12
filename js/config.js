@@ -17,6 +17,6 @@ const networksList = {
     ropsten,
 };
 
-const currentNetwork = networksList.ropsten; // Change this variable
+const currentNetwork = networksList.mainnet; // Change this variable
 
 export default currentNetwork;

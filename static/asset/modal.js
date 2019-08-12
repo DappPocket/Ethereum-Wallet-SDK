@@ -128,7 +128,7 @@ const modal = `
                                 <img class="my-2 wallet-button-img" src="https://i.imgur.com/vlxG8lN.png">
                             </button>
                             <button id="use-trezor-btn" class="btn btn-light btn-block">
-                                <img class="my-2" width="50%" src="https://i.imgur.com/uBELJuu.png">
+                                <img class="my-2 wallet-button-img" src="https://i.imgur.com/uBELJuu.png">
                             </button>
                             <button id="use-wc-btn" class="btn btn-light btn-block">
                                 <h4 class="my-2 text-primary">Connect Mobile Wallet</h4>

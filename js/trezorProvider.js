@@ -34,6 +34,7 @@ CustomTrezorSubprovider.prototype.handleRequest = async function handleRequest(p
 
         case 'eth_sendTransaction': {
             const txData = payload.params[0];
+            txData.gasLimit = txData.gas;
             const result = await TrezorConnect.ethereumSignTransaction({
                 path: trezorPath,
                 transaction: {
