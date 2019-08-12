@@ -95,6 +95,7 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
         }
 
         case 'net_version': {
+            next();
             break;
         }
 
