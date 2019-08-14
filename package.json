@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack -d --watch",
-    "server": "node sample/index.js"
+    "start": "node sample/index.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "babelify": "^10.0.0",
     "bootstrap": "^4.3.1",
     "css-loader": "^3.1.0",
+    "ethereumjs-tx": "^2.1.0",
     "jquery": "^3.4.1",
     "jsonwebtoken": "^8.5.1",
     "metamask-inpage-provider": "^2.0.1",
@@ -38,6 +39,7 @@
     "post-message-stream": "^3.0.0",
     "style-loader": "^0.23.1",
     "sweetalert": "^2.1.2",
+    "trezor-connect": "^7.0.5",
     "util": "^0.12.0",
     "uuid": "^3.3.2",
     "walletconnect-web3-provider": "^0.7.28",

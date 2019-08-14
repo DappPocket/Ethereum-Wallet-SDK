@@ -131,13 +131,15 @@ $("#web3_personal_sign_button").click(() => {
 });
 
 // Web3 Send Transaction
-$("#web3_send_tx_button").click(() => {
+$("#web3_send_tx_button").click(async () => {
     console.debug('web3_send_tx_button')
+    const nonce = await web3.eth.getTransactionCount(web3.eth.defaultAccount);
     web3.eth.sendTransaction({
         from: web3.eth.defaultAccount,
         to: '0x1952d797Ce4D282F6C83Ca32AE9840D869C9BDD1',
         value: '1000000000000000',
         gas: 21000,
+        nonce,
     }, (e, hash) => {
         if(e) {
             console.log('e: ', e);

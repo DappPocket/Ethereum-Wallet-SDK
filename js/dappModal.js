@@ -1,5 +1,5 @@
 const WalletConnectQRCodeModal = require('@walletconnect/qrcode-modal').default;
-const swal = require('sweetalert');
+const TrezorConnect = require('trezor-connect').default;
 const Portis = require('@portis/web3');
 const Web3 = require('web3');
 const $ = require('jquery');
@@ -9,6 +9,8 @@ const modal = require('../static/asset/modal');
 const { windowWeb3, windowProvider } = require('./global');
 const createLedgerWeb3 = require('./ledger');
 const myAlert = require('./alert');
+const createTrezorEngine = require('./trezorEngine').default;
+const config = require('./config.js').default;
 
 const modalHide = () => {
     $('#dappQrcodeModal').modal('hide');
@@ -78,6 +80,7 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
         window.ethereum = windowProvider;
         window.web3 = windowWeb3;
 
+
         modalStartLoading();
         window.ethereum.enable().then((res) => {
             console.debug('res: ', res);
@@ -91,7 +94,7 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
     $('#use-portis-btn').click(() => {
         console.debug('Use Portis');
 
-        const portis = new Portis('696237e9-38fb-406a-a4d6-bfa3a4d63293', 'mainnet');
+        const portis = new Portis('696237e9-38fb-406a-a4d6-bfa3a4d63293', config.network);
         const web3 = new Web3(portis.provider);
         window.ethereum = portis.provider;
         window.web3 = web3;
@@ -185,6 +188,29 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
             }
         });
     });
+    $('#use-trezor-btn').click(async () => {
+        modalStartLoading();
+        TrezorConnect.manifest({
+            email: 'hello@dapppocket.io', // Use Our Data
+            appUrl: 'https://dappsdk.io/',
+        });
+        const result = await TrezorConnect.ethereumGetAddress({
+            path: "m/44'/60'/0'/0/0",
+        });
+        if (result.success) {
+            // Add Provider and web3
+            const { address } = result.payload;
+            const trezorEngine = createTrezorEngine(address);
+            window.ethereum = trezorEngine;
+            const web3 = new Web3(trezorEngine);
+            window.web3 = web3;
+            modalHide();
+            end(null, [address]);
+        } else {
+            modalHide();
+            end(result.payload);
+        }
+    });
     $('#use-wc-btn').click(() => {
         console.debug('Use WalletConnect');
 
@@ -201,17 +227,7 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
                     end(null, res);
                 });
             } else { // Web3-incompatible, e.g., Chrome, Firefox
-                swal({
-                    title: 'Unsupported Browser',
-                    content: {
-                        element: 'div',
-                        attributes: {
-                            innerHTML: `
-                                Download <a href="https://trustwallet.com/" target="_blank">Trust Wallet</a> or <a href="https://dapppocket.io/" target="_blank">Dapp Pocket</a> to explore the blockchain world!
-                            `,
-                        },
-                    },
-                });
+                myAlert.wcUnsupport();
             }
         } else { // PC/MAC Broswer
             modalHide();

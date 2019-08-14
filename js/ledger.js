@@ -5,8 +5,10 @@ const TransportU2F = require('@ledgerhq/hw-transport-u2f').default;
 
 const createLedgerSubprovider = LedgerWalletProvider.default;
 
-const networkId = 1;
-const rpcUrl = 'https://mainnet.infura.io/v3/056c00b3a8d846369185946435ca1ea3';
+const config = require('./config').default;
+
+const networkId = config.chainId;
+const { rpcUrl } = config;
 const legacyPath = "44'/60'/0'/0";
 const ledgerLivePath = "44'/60'/0'/0/0";
 
