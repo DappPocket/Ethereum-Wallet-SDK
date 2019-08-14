@@ -110,7 +110,7 @@ const modal = `
                     <div class="modal-body">
                         <div id="walletGroup">
                             <div class="text-center">
-                                <h6 class="h6 mb-3 font-weight-light" id="modal-intro"></h6>
+                                <h6 class="h6 mb-4 mt-1 font-weight-light" id="modal-intro"></h6>
                             </div>
                             <button id="use-metamask-btn" class="btn btn-light btn-block">
                                 <img class="my-2 wallet-button-img" src="https://i.imgur.com/2HV78Pn.png">
@@ -130,7 +130,7 @@ const modal = `
                             <button id="use-trezor-btn" class="btn btn-light btn-block">
                                 <img class="my-2 wallet-button-img" src="https://i.imgur.com/uBELJuu.png">
                             </button>
-                            <button id="use-wc-btn" class="btn btn-light btn-block">
+                            <button id="use-mobile-btn" class="btn btn-light btn-block">
                                 <h4 class="my-2 text-primary">Connect Mobile Wallet</h4>
                             </button>
                             <div id="more-options" class="text-center" style="display: none;">

@@ -223,24 +223,11 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
             end(result.payload);
         }
     });
-    $('#use-wc-btn').click(() => {
+    $('#use-mobile-btn').click(() => {
         console.debug('Use WalletConnect');
 
         if (window.isMobile) { // Mobile
-            if (windowWeb3 && windowProvider) { // Web3-compatible wallets
-                windowWeb3.eth.getAccounts((err, res) => {
-                    if (err) {
-                        modalHide();
-                        end(err);
-                    }
-                    modalHide();
-                    window.web3 = windowWeb3;
-                    window.ethereum = windowProvider;
-                    end(null, res);
-                });
-            } else { // Web3-incompatible, e.g., Chrome, Firefox
-                myAlert.wcUnsupport();
-            }
+            myAlert.wcUnsupport();
         } else { // PC/MAC Broswer
             modalHide();
 
@@ -281,7 +268,7 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
 
 module.exports = {
     showLoginQrcodeWithString: (walletConnector, end, onLoginSuccess = () => {}) => {
-        // If modal not exist, append it?
+        // If modal not exist, setup the modal and append it
         if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);
             addWalletBtnListener(walletConnector, end, onLoginSuccess);
@@ -293,25 +280,41 @@ module.exports = {
             $('#dapp-icon').attr('src', iconSrc);
 
             // Set modal intro
-            $('#modal-intro').text('Choose your favorite wallet');
+            $('#modal-intro').text('Choose a wallet to continue');
 
-            // Hide wallets that don't support mobile
-            if (window.isMobile) {
-                $('#use-metamask-btn').css('display', 'none');
-                $('#use-dapper-btn').css('display', 'none');
-                $('#use-ledger-btn').css('display', 'none');
-                $('#more-options').css('display', 'block');
-            }
             // Add dismiss handler
             const listener = () => {
-                console.debug('on dappQrcodeModal close');
+                console.debug('On dappQrcodeModal close');
                 $('#dappQrcodeModal').off();
             };
             $('#dappQrcodeModal').on('hidden.bs.modal', listener);
         }
 
+        // Check isMobile
+        if (window.isMobile) {
+            if (windowWeb3 && windowProvider) { // Web3-compatible wallets
+                // Don't Open modal, just enable
+                windowProvider.enable().then((res) => {
+                    window.web3 = windowWeb3;
+                    window.ethereum = windowProvider;
+                    end(null, res);
+                }).catch((err) => {
+                    end(err);
+                });
+            } else { // Normal browser
+                //  Hide wallets that don't support mobile
+                $('#use-metamask-btn').css('display', 'none');
+                $('#use-dapper-btn').css('display', 'none');
+                $('#use-ledger-btn').css('display', 'none');
+                $('#use-trezor-btn').css('display', 'none');
+                // $('#more-options').css('display', 'block');
 
-        // display modal
-        toggleQrcode();
+                // Open modal
+                toggleQrcode();
+            }
+        } else {
+            // Open modal
+            toggleQrcode();
+        }
     },
 };
