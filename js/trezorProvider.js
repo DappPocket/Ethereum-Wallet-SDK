@@ -34,13 +34,16 @@ CustomTrezorSubprovider.prototype.handleRequest = async function handleRequest(p
 
         case 'eth_sendTransaction': {
             const txData = payload.params[0];
+
+            // This props must be added for Trezor
+            const nonce = await window.web3.eth.getTransactionCount(txData.from);
+            txData.nonce = window.web3.utils.toHex(nonce);
             txData.gasLimit = txData.gas;
+            txData.chainId = config.chainId;
+
             const result = await TrezorConnect.ethereumSignTransaction({
                 path: trezorPath,
-                transaction: {
-                    ...txData,
-                    chainId: config.chainId,
-                },
+                transaction: txData,
             });
             const txSignature = result.payload; // v: recover ID, r s : ECDSA signature
             const newTxData = { ...txData, ...txSignature };

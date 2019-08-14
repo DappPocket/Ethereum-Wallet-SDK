@@ -133,19 +133,18 @@ $("#web3_personal_sign_button").click(() => {
 // Web3 Send Transaction
 $("#web3_send_tx_button").click(async () => {
     console.debug('web3_send_tx_button')
-    const nonce = await web3.eth.getTransactionCount(web3.eth.defaultAccount);
     web3.eth.sendTransaction({
         from: web3.eth.defaultAccount,
-        to: '0x1952d797Ce4D282F6C83Ca32AE9840D869C9BDD1',
+        to: '0x9EE2B16e1FA35E417dB7dE2fDd9377a73D7c2B67',
         value: '1000000000000000',
         gas: 21000,
-        nonce,
     }, (e, hash) => {
         if(e) {
             console.log('e: ', e);
+        } else {
+            console.log('web3_tx_hash');
+            $('#web3_tx_hash').html(hash);
         }
-        console.log('web3_tx_hash');
-        $('#web3_tx_hash').html(hash);
     });
 });
 
