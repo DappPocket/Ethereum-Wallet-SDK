@@ -280,7 +280,7 @@ module.exports = {
             $('#dapp-icon').attr('src', iconSrc);
 
             // Set modal intro
-            $('#modal-intro').text('Choose your favorite wallet');
+            $('#modal-intro').text('Choose a wallet to continue');
 
             // Add dismiss handler
             const listener = () => {
@@ -307,7 +307,7 @@ module.exports = {
                 $('#use-dapper-btn').css('display', 'none');
                 $('#use-ledger-btn').css('display', 'none');
                 $('#use-trezor-btn').css('display', 'none');
-                $('#more-options').css('display', 'block');
+                // $('#more-options').css('display', 'block');
 
                 // Open modal
                 toggleQrcode();
