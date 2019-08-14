@@ -4,205 +4,230 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     </head>
     <body>
-        <h1>Sample Dapp</h1>
-        <div id="login">
-            Login web3:
-            <button id="login_button"> login </button>
-            <button id="logout_button" hidden> logout </button>
-        </div>
-        <div id="logout">
-            Logout web3:
-            <button id="logout_button"> logout </button>
-        </div>
-        <div>
-            window.ethereum enable: <span id='ethereum_enable'></span>
-        </div>
-        <div>
-            web3 defaultAccount: <span id='web3_defaultAccount'></span>
-        </div>
-        <div>
-            web3 accounts: <span id='web3_accounts'></span>
-        </div>
-        <div>
-            web3 coinbase: <span id='web3_coinbase'></span>
-        </div>
-        <div>
-            web3 net id: <span id='web3_netId'></span>
-        </div>
-        <div>
-            Web3 sign 12345: <button id='web3_sign_button' type='button'>Go</button>
-            <br>
-            Web3 personal sign 12345: <button id='web3_personal_sign_button' type='button'>Go</button>
-            <br>
-            web3 sign result: <span id='web3_sign_result'></span>
-        </div>
-        <div>
-    		Web3 personal sign string 12345: 
-                <button id='web3_personal_sign_button' type='button'>Go</button>
-            <br>
-            web3 personal sign result: <span id='web3_personal_sign_result'></span>
-        </div>
-        
-        <div>
-    		Web3 send 0.001 to 0x1952d797Ce4D282F6C83Ca32AE9840D869C9BDD1: 
-                <button id='web3_send_tx_button' type='button'>Go</button>
-            <br>
-            web3 tx hash: <span id='web3_tx_hash'></span>
-        </div>
-
-        <div>
-            tron is dapp pocket: <span id='tron_isDappPocket'></span>
-        </div>
-
-        <div>
-            tron defaultAddress: <span id='tron_defaultAddress'></span>
-        </div>
-        
-        <div>
-            tron send 0.001 to TCH78q2rb9vgwsb2kZ64QTTgKwQfj33nCd: 
-            <button id='tron_send_button' type='button'>Go</button>
-            <br>
-            tron sign result: <span id='tron_send_result'></span>
-        </div>
-        <div>
-            Open modal: <button id="open_modal_button"> Open </button>
+        <div class="container">
+            <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand" href="/">
+                    <span class="navbar-brand mb-0 h1">Sample Dapp</span>
+                </a>
+                <div class="my-2 my-sm-0">
+                    <button class="btn btn-primary" id="login_button" type="button">Login web3</button>
+                    <button class="btn btn-outline-danger" id="logout_button" type="button">Logout web3</button>
+                </div>
+            </nav>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <span>window.ethereum enable: </span>
+                    <span id='ethereum_enable'></span>
+                </div>
+            </div>
+            <div class="card-group">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">web3 defaultAccount</h5>
+                        <span id='web3_defaultAccount'>---</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">web3 accounts</h5>
+                        <span id='web3_accounts'>---</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">web3 coinbase</h5>
+                        <span id='web3_coinbase'>---</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">netwrok Type / Id</h5>
+                        <span id='web3_netType'>---</span>                        
+                        <span>/</span>
+                        <span id='web3_netId'>---</span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-header">Sign Message</div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <input
+                                id="sign_input"
+                                type="text"
+                                class="form-control"
+                                placeholder="message"
+                                aria-label="message"
+                                aria-describedby="web3_sign_button">
+                            <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" id="web3_sign_button">Sign</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <span>Sign Result: </span>
+                        <span id='web3_sign_result'></span>                        
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Personal Sign Message</div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <input
+                                id="personal_sign_input"
+                                type="text"
+                                class="form-control"
+                                placeholder="message"
+                                aria-label="message"
+                                aria-describedby="web3_personal_sign_button">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button" id="web3_personal_sign_button">Sign</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <span>Sign Result: </span>
+                        <span id='web3_personal_sign_result'></span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Send Transaction</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Recipient Address</h5>
+                        <textarea class="form-control" aria-label="With textarea" id="web3_send_tx_address"></textarea>
+                        <br />
+                        <h5 class="card-title">ETH Amount</h5>
+                        <div class="input-group mb-3">
+                            <input
+                                id="web3_send_tx_amount"
+                                type="text"
+                                class="form-control"
+                                placeholder="ETH send amount"
+                                aria-label="ETH send amount"
+                                aria-describedby="web3_send_tx_button">
+                            <div class="input-group-append">
+                                <button
+                                    class="btn btn-primary"
+                                    type="button"
+                                    id="web3_send_tx_button">
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <span>Transaction Hash: </span>
+                        <span id='web3_tx_hash'></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
-
 </html>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+    integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+    crossorigin="anonymous">
+<script
+    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous">
+</script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+    integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+    crossorigin="anonymous">
+</script>
+<script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+    integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+    crossorigin="anonymous">
+</script>
 <script src='./static/dist/dapp-sdk.bundle.js'></script>
-<script src='./static/asset/modal.js'></script>
 
 <script>
 // Web3 Login
-
 $("#login_button").click(() => {
     window.ethereum.enable().then(() => {
-        console.debug('enable done.');
-        console.debug(web3);
-
-        $("#login").hide();
-
-        $("#ethereum_enable").html('window.ethereum enable successed');
-
+        $("#login_button").hide();
+        $("#ethereum_enable").html('SUCCESSED').addClass('badge badge-success');
         $("#web3_defaultAccount").html(web3.eth.defaultAccount);
-        $("#web3_netId").html(web3.version.network);
         web3.eth.getCoinbase((err, account) => {
             $('#web3_coinbase').html(account);
         })
-
         web3.eth.getAccounts((err, accounts) => {
             $('#web3_accounts').html(accounts);
         })
-
+        web3.eth.net.getId().then(id => {
+            $("#web3_netId").html(id);
+        })
+        web3.eth.net.getNetworkType().then(type => {
+            $("#web3_netType").html(type);
+        });
     }).catch((e) => {
-        console.log('enable failed with error: ', e);
-        $("#ethereum_enable").html('window.ethereum enable FAILED');
+        $("#ethereum_enable").html('FAILED').addClass('badge badge-danger');
     });
 });
-
-$("#logout").click(() => {
-    window.ethereum.logout().then((res) => {
-        console.log('logout done. res: ', res);
-    }).catch((err) => {
-        console.log('logout err: ', err);
-    });
+$("#logout_button").click(() => {
+    if(!(typeof window.ethereum.logout === 'function')) {
+        alert('Please use wallet connect.');
+    } else {
+        window.ethereum.logout().then((res) => {
+            console.log('logout done. res: ', res);
+        }).catch((err) => {
+            alert(err);
+        });
+    }
 });
 // Web3 Sign
 $("#web3_sign_button").click(() => {
-    web3.eth.sign('Sign 12345', web3.eth.defaultAccount, (err, result) => {
-        $('#web3_sign_result').html(result);
-    });
+    const signMessage = $('#sign_input').val();
+    if(!(web3 && web3.eth && web3.eth.defaultAccount)) {
+        alert("No accounts exposed!");
+    } else {
+        web3.eth.sign(signMessage, web3.eth.defaultAccount, (err, result) => {
+            if(err) {
+                alert('You cancel the signature request.');
+            }
+            $('#web3_sign_result').html(result);
+        });
+    }
 });
-
 // Web3 Personal Sign
 $("#web3_personal_sign_button").click(() => {
-    web3.eth.personal.sign('Personal Sign 12345', web3.eth.defaultAccount, '', (err, result) => {
-        if(err) {
-            console.log('err: ', JSON.stringify(err));
-            console.log(err);
-        }
-        $('#web3_sign_result').html(result);
-    });
+    const personalSignMessage = $('#personal_sign_input').val();
+    if(!(web3 && web3.eth && web3.eth.defaultAccount)) {
+        alert("No accounts exposed!");
+    } else {
+        web3.eth.personal.sign(personalSignMessage, web3.eth.defaultAccount, '', (err, result) => {
+            if(err) {
+                alert('You cancel the signature request');
+            }
+            $('#web3_personal_sign_result').html(result);
+        });
+    }
 });
-
 // Web3 Send Transaction
-$("#web3_send_tx_button").click(async () => {
-    console.debug('web3_send_tx_button')
-    web3.eth.sendTransaction({
+$("#web3_send_tx_button").click(() => {
+    const recipient = $('#web3_send_tx_address').val();
+    const sendAmount = $('#web3_send_tx_amount').val();
+    const WEI = 1000000000000000000;
+    const transactionObject = {
         from: web3.eth.defaultAccount,
-        to: '0x9EE2B16e1FA35E417dB7dE2fDd9377a73D7c2B67',
-        value: '1000000000000000',
+        to: recipient,
+        value: (sendAmount* WEI).toString(),
         gas: 21000,
-    }, (e, hash) => {
-        if(e) {
-            console.log('e: ', e);
-        } else {
-            console.log('web3_tx_hash');
-            $('#web3_tx_hash').html(hash);
-        }
+    };
+    web3.eth.sendTransaction(transactionObject)
+    .on('transactionHash', (hash) => {
+        $('#web3_tx_hash').html(hash);
+    })
+    .on('error', (err) => {
+        alert(err);
     });
 });
-
-/*
-// Tron
-$('#tron_isDappPocket').html(tronWeb.isDappPocket);
-$("#tron_defaultAddress").html(tronWeb.defaultAddress.base58);
-$('#tron_sign_button').click(() => {
-	tronWeb.trx.sign(['12345'])
-	.then((result) => {
-        console.log(result);
-	    $('#tron_sign_result').html(JSON.stringify(result))
-	}).catch((err) => {
-	    alert(err)
-	    $('#tron_sign_result').html('errrrrrrrrror')
-	});
-});
-$('#tron_send_button').click(() => {
-	tronWeb.trx.sendTransaction('TCH78q2rb9vgwsb2kZ64QTTgKwQfj33nCd', 1000)
-	.then((result) => {
-        console.log(result);
-	    $('#tron_send_result').html(JSON.stringify(result))
-	}).catch((err) => {
-	    alert(err)
-	    $('#tron_send_result').html('errrrrrrrrror')
-	});
-});
-// alert(web3.eth.defaultAddress);
-/*
-$("#balance_btn").click(() => {
-    tronWeb.trx.getBalance(tronWeb.defaultAddress.base58)
-    .then((result) => {
-        console.log(result);
-        $("#balance_label").html(result);
-    });
-});
-
-const sendTx = () => {
-	var to_address = $('#to_address').val()
-	console.log(to_address);
-	
-	tronWeb.trx.sendTransaction(to_address, 100)
-	.then((result) => {
-        console.log(result);
-	    $('#send_result').html(JSON.stringify(result))
-	}).catch((err) => {
-	    alert(err)
-	    $('#send_result').html('errrrrrrrrror')
-	});
-};
-
-$('#send_button').click(sendTx);
-
-*/
-
-// Testing of Modal
-$('#open_modal_button').click(() => {
-    $('#dappQrcodeModal').modal();
-});
-
 </script>
