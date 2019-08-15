@@ -78,9 +78,15 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
 
         console.debug('Use Dapper');
 
+        // Check if Dapper is unclocked
+        if (!(windowWeb3.eth.coinbase)) {
+            console.debug('Dapper is locked');
+            myAlert.dapperIsLocked();
+            return;
+        }
+
         window.ethereum = windowProvider;
         window.web3 = windowWeb3;
-
 
         modalStartLoading();
         window.ethereum.enable().then((res) => {
