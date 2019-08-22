@@ -5,6 +5,7 @@ const Web3 = require('web3');
 const $ = require('jquery');
 require('bootstrap');
 const Torus = require('@toruslabs/torus-embed').default;
+const i18next = require('i18next').default;
 
 const modal = require('../static/asset/modal');
 const { windowWeb3, windowProvider } = require('./global');
@@ -12,6 +13,8 @@ const createLedgerWeb3 = require('./ledger');
 const myAlert = require('./alert');
 const createTrezorEngine = require('./trezorEngine').default;
 const config = require('./config.js').default;
+const translationEN = require('../static/i18n/en.json');
+const translationZHTW = require('../static/i18n/zh-TW.json');
 
 const modalHide = () => {
     $('#dappQrcodeModal').modal('hide');
@@ -260,18 +263,34 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
 module.exports = {
     showLoginQrcodeWithString: (walletConnector, end, onLoginSuccess = () => {}) => {
         // If modal not exist, setup the modal and append it
+
+        const resources = {
+            en: { translation: translationEN },
+            'zh-TW': { translation: translationZHTW },
+        };
+
+        i18next.init({
+            lng: window.navigator.language,
+            fallbackLng: 'en',
+            resources,
+        });
+
         if ($('#dappQrcodeModal').length === 0) {
             $('body').append(modal);
             addWalletBtnListener(walletConnector, end, onLoginSuccess);
 
-            // Set modal title
-            const title = `Sign in ${$(document).find('title').text()}`;
-            $('#dapp-title').text(title);
+            // Set all text
+            $('[data-i18n]').each((index, object) => {
+                const text = $(object).data('i18n');
+                const translation = (index === 0) // Set modal title
+                    ? `${i18next.t('signIn')} ${$(document).find('title').text()}`
+                    : i18next.t(text);
+
+                $(object).text(translation);
+            });
+
             const iconSrc = `https://www.google.com/s2/favicons?domain=${window.location.href}`;
             $('#dapp-icon').attr('src', iconSrc);
-
-            // Set modal intro
-            $('#modal-intro').text('Choose a wallet to continue');
 
             // Add dismiss handler
             const listener = () => {
@@ -293,10 +312,10 @@ module.exports = {
                 });
             } else { // Normal browser
                 //  Hide wallets that don't support mobile
-                $('#use-metamask-btn').css('display', 'none');
-                $('#use-dapper-btn').css('display', 'none');
-                $('#use-ledger-btn').css('display', 'none');
-                $('#use-trezor-btn').css('display', 'none');
+                $('#use-metamask-btn, #use-dapper-btn, #use-ledger-btn, #use-trezor-btn')
+                    .each((index, object) => {
+                        $(object).css('display', 'none');
+                    });
                 // $('#more-options').css('display', 'block');
 
                 // Open modal

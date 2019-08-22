@@ -102,7 +102,7 @@ const modal = `
                 <div class="modal-content">
                     <div class="modal-header align-items-center">
                         <img id="dapp-icon" class="mr-3" style="max-width: 20px;" src="https://images.cointelegraph.com/images/240_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS9zdG9yYWdlL3VwbG9hZHMvdmlldy8wZWNiY2NiNDI0NWQ2MThmMGI0MzUxNGQ0Y2QxZTg1NS5wbmc=.png">
-                        <h4 id="dapp-title" class="h4 mb-0">Sign in</h4>
+                        <h4 data-i18n="signIn" id="dapp-title" class="h4 mb-0">Sign in</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -110,7 +110,7 @@ const modal = `
                     <div class="modal-body">
                         <div id="walletGroup">
                             <div class="text-center">
-                                <h6 class="h6 mb-4 mt-1 font-weight-light" id="modal-intro"></h6>
+                                <h6 data-i18n="chooseWallet" class="h6 mb-4 mt-1 font-weight-light" id="modal-intro"></h6>
                             </div>
                             <button id="use-metamask-btn" class="btn btn-light btn-block">
                                 <img class="my-2 wallet-button-img" src="https://i.imgur.com/2HV78Pn.png">
@@ -139,7 +139,7 @@ const modal = `
                         </div>
                         <div id="ledger-path" style="display: none;">
                             <button id="go-back" class="btn btn-light btn-block">
-                                <h6 class="my-2 text-primary">← Back</h6>
+                                <h6 data-i18n="back" class="my-2 text-primary">← Back</h6>
                             </button>
                             <button id="use-legacy-path" class="btn btn-light btn-block">
                                 <h6 class="my-2 text-primary">MEW / MyCrypto - m/44'/60'/0'/0</h6>
@@ -150,7 +150,7 @@ const modal = `
                         </div>
                         <div id="spinner" style="display: none;">
                             <div class="text-center">
-                                <h6 class="h6">Connecting...</h6>
+                                <h6 data-i18n="connect" class="h6 connect">Connecting...</h6>
                             </div>
                             <div class="sk-folding-cube">
                                 <div class="sk-cube1 sk-cube"></div>
@@ -161,9 +161,9 @@ const modal = `
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="help-button" class="btn btn-link mr-auto p-0 text-primary font-weight-light">Help</button>
+                        <button data-i18n="help" id="help-button" class="btn btn-link mr-auto p-0 text-primary font-weight-light">Help</button>
                         <div>
-                            <text class="font-weight-light text-secondary">Powered by</text>
+                            <text data-i18n="poweredBy" lass="font-weight-light text-secondary">Powered by</text>
                             <a class="font-weight-light" href="https://dappsdk.io/" target="_blank">Dapp SDK</a>
                         </div>
                     </div>
