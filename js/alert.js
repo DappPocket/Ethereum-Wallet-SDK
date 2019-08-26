@@ -12,6 +12,12 @@ const dapper = () => swal({
     icon: 'warning',
 });
 
+const dapperIsLocked = () => swal({
+    title: 'Dapper is locked',
+    text: 'Please login your Dapper wallet.',
+    icon: 'warning',
+});
+
 const ledger = () => swal({
     title: 'Can\'t find Ledger',
     text: 'Please check your Ledger wallet is connected to your computer and navigate to the Ethereum app.',
@@ -61,6 +67,7 @@ const help = () => swal({
 module.exports = {
     metamask,
     dapper,
+    dapperIsLocked,
     ledger,
     trezor,
     wcUnsupport,
