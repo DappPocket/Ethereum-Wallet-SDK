@@ -8,15 +8,12 @@ function StaticProvider(defaultAddressGenerator, defaulNetVersionGenerator) {
 
     self.staticResponses = {
         eth_accounts: () => {
-            console.log('****eth_accounts');
             return [self.defaultAddressGenerator()];
         },
         eth_coinbase: () => {
-            console.log('****eth_coinbase');
             return self.defaultAddressGenerator();
         },
         net_version: () => {
-            console.log('****net_version');
             return self.defaulNetVersionGenerator();
         },
     };
@@ -31,13 +28,11 @@ StaticProvider.prototype.handleRequest = function handleRequest(payload, next, e
 
 StaticProvider.prototype.handleSyncRequest = function handleSyncRequest(payload) {
     const self = this;
-    console.log('payload.method: ', payload.method);
     const staticResponse = self.staticResponses[payload.method];
     if (typeof staticResponse === 'function') {
         return staticResponse();
     // static response - null is valid response
     } if (staticResponse !== undefined) {
-        console.log(staticResponse);
         return staticResponse;
     // no prepared response - skip
     }

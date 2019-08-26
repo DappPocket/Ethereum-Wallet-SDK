@@ -7,10 +7,8 @@ var path = require('path');
 function start(route) {
 	var app = express();
 
-	console.log('Server start...');
 
 	app.get('/', (req, res) => {
-    	console.log("Request received.");
 		fs.readFile('./sample/sample.html',(err, data) => {
 			res.writeHead(200, {"Content-Type": "text/html", 'Content-Length':data.length});
 			res.write(data);

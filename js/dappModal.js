@@ -50,18 +50,15 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
     // add listener once
     $('#use-metamask-btn').click(() => {
         if (!(windowProvider && windowProvider.isMetaMask)) {
-            console.debug('Can\'t find MetaMask');
             myAlert.metamask();
             return;
         }
-        console.debug('Use MetaMask');
 
         window.ethereum = windowProvider;
         window.web3 = windowWeb3;
 
         modalStartLoading();
         window.ethereum.enable().then((res) => {
-            console.debug('res: ', res);
             modalHide();
             end(null, res);
         }).catch((err) => {
@@ -71,16 +68,13 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
     });
     $('#use-dapper-btn').click(() => {
         if (!(windowProvider && windowProvider.isDapper)) {
-            console.debug('Can\'t find Dapper');
             myAlert.dapper();
             return;
         }
 
-        console.debug('Use Dapper');
 
         // Check if Dapper is unclocked
         if (!(windowWeb3.eth.coinbase)) {
-            console.debug('Dapper is locked');
             myAlert.dapperIsLocked();
             return;
         }
@@ -90,7 +84,6 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
 
         modalStartLoading();
         window.ethereum.enable().then((res) => {
-            console.debug('res: ', res);
             modalHide();
             end(null, res);
         }).catch((err) => {
@@ -99,7 +92,6 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
         });
     });
     $('#use-portis-btn').click(() => {
-        console.debug('Use Portis');
 
         const portis = new Portis('696237e9-38fb-406a-a4d6-bfa3a4d63293', config.network);
         const web3 = new Web3(portis.provider);
@@ -109,7 +101,6 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
 
         modalStartLoading();
         window.ethereum.enable().then((res) => {
-            console.debug('res: ', res);
             modalHide();
             end(null, res);
         }).catch((err) => {
@@ -118,7 +109,6 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
         });
     });
     $('#use-torus-btn').click(async () => {
-        console.debug('Use Torus');
 
         // Optional, if ture, reload or restore website will keep user web3 data
         // const isTorus = sessionStorage.getItem('pageUsingTorus');
@@ -152,7 +142,6 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
         }
     });
     $('#use-ledger-btn').click(async () => {
-        console.debug('Use Ledger');
         showLedgerDerivationPath();
         $('#go-back').click(() => {
             ledgerPathGoBack();
@@ -167,7 +156,6 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
             let accounts;
             try {
                 accounts = await web3.eth.getAccounts();
-                console.debug(accounts);
                 // Set default Account
                 const [firstAccount, ...rest] = accounts;
                 web3.eth.defaultAccount = firstAccount;
@@ -191,7 +179,6 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
             let accounts;
             try {
                 accounts = await web3.eth.getAccounts();
-                console.debug(accounts);
                 // Set default Account
                 const [firstAccount, ...rest] = accounts;
                 web3.eth.defaultAccount = firstAccount;
@@ -230,7 +217,6 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
         }
     });
     $('#use-mobile-btn').click(() => {
-        console.debug('Use WalletConnect');
 
         if (window.isMobile) { // Mobile
             myAlert.wcUnsupport();
@@ -247,7 +233,6 @@ const addWalletBtnListener = (walletConnector, end, onLoginSuccess) => {
                 const { uri } = walletConnector;
                 // display QR Code modal
                 WalletConnectQRCodeModal.open(uri, () => {
-                    console.debug('QR Code Modal closed');
                 });
             });
 
@@ -290,7 +275,6 @@ module.exports = {
 
             // Add dismiss handler
             const listener = () => {
-                console.debug('On dappQrcodeModal close');
                 $('#dappQrcodeModal').off();
             };
             $('#dappQrcodeModal').on('hidden.bs.modal', listener);
