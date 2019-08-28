@@ -177,7 +177,6 @@ $("#logout_button").click(() => {
         alert('Please use wallet connect.');
     } else {
         window.ethereum.logout().then((res) => {
-            console.log('logout done. res: ', res);
         }).catch((err) => {
             alert(err);
         });

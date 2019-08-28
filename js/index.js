@@ -16,7 +16,6 @@ let _defaultAddress;
 const { rpcUrl } = config;
 
 const getDefaultAddress = () => {
-    console.log('getDefaultAddress');
     if (_defaultAddress !== undefined) {
         return _defaultAddress;
     }
@@ -24,7 +23,6 @@ const getDefaultAddress = () => {
 };
 
 const getNetVersion = () => {
-    console.log('getNetVersion');
     return 1;
 };
 
@@ -75,7 +73,6 @@ const initEngine = () => {
     eng.dappSdk = { version };
 
     eng.enable = async (cb = () => {}) => {
-        console.log('enable');
         const p = new Promise((resolve, reject) => {
             const rpcData = {
                 method: 'eth_requestAccounts',
@@ -85,10 +82,8 @@ const initEngine = () => {
             };
             eng.sendAsync(rpcData, (err, res) => {
                 if (err) {
-                    console.log('enable rejected with err: ', err);
                     reject(err);
                 }
-                console.log('enable resolved, res: ', res);
                 defaultEnableCallback(err, res);
                 cb(err, res);
                 resolve(res);

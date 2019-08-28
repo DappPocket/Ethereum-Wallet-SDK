@@ -8,7 +8,6 @@ const setupWalletConnector = (walletConnector) => {
 
         // Get updated accounts and chainId
         const { accounts, chainId } = payload.params[0];
-        console.debug('on session_update', accounts, chainId);
     });
 
     walletConnector.on('disconnect', (error, payload) => {
@@ -17,7 +16,6 @@ const setupWalletConnector = (walletConnector) => {
         }
 
         // Delete walletConnector
-        console.debug('on disconnect');
         // eslint-disable-next-line no-alert
         alert('Log out successfully.');
         // eslint-disable-next-line no-restricted-globals

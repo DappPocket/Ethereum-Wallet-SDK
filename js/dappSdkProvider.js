@@ -17,10 +17,8 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
     switch (payload.method) {
         // enable
         case 'eth_requestAccounts': {
-            console.debug('******* enable(), eth_requestAccounts *******');
             const { payload: { walletConnector } } = payload;
 
-            console.debug(walletConnector);
 
             dappModal.showLoginQrcodeWithString(
                 walletConnector,
@@ -36,13 +34,11 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
         }
 
         case 'eth_coinbase': {
-            console.log('eth_coinbase');
             end(null, self.defaultAddress);
             break;
         }
 
         case 'eth_accounts': {
-            console.log('eth_accounts');
             end(null, [self.defaultAddress]);
             break;
         }
@@ -53,17 +49,14 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
             }
 
             const txData = payload.params[0];
-            console.log('eth_sendTransaction txData: ', txData);
             self.walletConnector
                 .sendTransaction(txData)
                 .then((result) => {
                     // Returns transaction id (hash)
-                    console.log('result: ', result);
                     end(null, result);
                 })
                 .catch((error) => {
                     // Error returned when rejected
-                    console.log('error: ', error);
                     end(error);
                 });
             break;
@@ -74,7 +67,6 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
                 end(Error('Please login.'));
             }
 
-            console.log(payload.params);
             const { params: [address, data] } = payload;
             const msgParams = [
                 address,
@@ -83,12 +75,10 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
             self.walletConnector.signMessage(msgParams)
                 .then((result) => {
                     // Returns signature.
-                    console.log('result: ', result);
                     end(null, result);
                 })
                 .catch((error) => {
                     // Error returned when rejected
-                    console.log('error: ', error);
                     end(error);
                 });
             break;
@@ -112,12 +102,10 @@ RemoteLoginSubprovider.prototype.handleRequest = function handleRequest(payload,
             self.walletConnector.signPersonalMessage(msgParams)
                 .then((result) => {
                     // Returns signature.
-                    console.log('result: ', result);
                     end(null, result);
                 })
                 .catch((error) => {
                     // Error returned when rejected
-                    console.log('error: ', error);
                     end(error);
                 });
             break;
