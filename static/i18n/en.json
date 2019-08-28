@@ -1,0 +1,24 @@
+{
+  "signIn": "Sign In",
+  "chooseWallet": "help",
+  "help": "help",
+  "connect": "Connecting...",
+  "poweredBy": "Powered by",
+  "back": "← Back",
+  "swal": {
+    "pleaseInstall": "Please enable or install it in the app store of your browser.",
+    "notFound": "Can't find {{wallet}}",
+    "checkLedger": "Please check your Ledger wallet is connected to your computer and navigate to the Ethereum app.",
+    "checkTrezor": "Please check your Trezor wallet is connected to your computer.",
+    "unsupportedBrowser": "Unsupported Browser",
+    "download": "Download",
+    "or": "or",
+    "explore": "to explore the blockchain world!",
+    "help": {
+      "title": "Welcome to {{app}}!",
+      "intro": "You will need a Ethereum account to start exploring. You can get a Ethereum account from a wallet application. There are many wallets, here are the wallets we support:",
+      "mobile": "and mobile wallet apps that support Wallet Connect like",
+      "and": "and"
+    }
+  }
+}

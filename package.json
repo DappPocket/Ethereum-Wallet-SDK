@@ -32,6 +32,7 @@
     "bootstrap": "^4.3.1",
     "css-loader": "^3.1.0",
     "ethereumjs-tx": "^2.1.0",
+    "i18next": "^17.0.11",
     "jquery": "^3.4.1",
     "jsonwebtoken": "^8.5.1",
     "metamask-inpage-provider": "^2.0.1",

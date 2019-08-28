@@ -1,0 +1,24 @@
+{
+  "signIn": "登入",
+  "chooseWallet": "選擇一個錢包進行登入",
+  "help": "幫助",
+  "connect": "連接中...",
+  "poweredBy": "技術支援",
+  "back": "← 返回",
+  "swal": {
+    "pleaseInstall": "請至瀏覽器的線上應用商店安裝或是啟用此擴充套件。",
+    "notFound": "沒有偵測到 {{wallet}}",
+    "checkLedger": "請確認您的 Ledger 錢包已經連接電腦，並在 Ledger 上進入 Ethereum 應用程式。",
+    "checkTrezor": "請確認您的 Trezor 錢包已經連接電腦，並且依照 Trezor 說明安裝相關應用程式。",
+    "unsupportedBrowser": "瀏覽器不支援",
+    "download": "下載",
+    "or": "或是",
+    "explore": "來探索區塊鏈世界！",
+    "help": {
+      "title": "歡迎使用 {{app}}！",
+      "intro": "你將需要一個以太坊帳戶來使用去中心化應用。你可以透過錢包應用程式生成以太坊帳戶，以下為我們目前支援的錢包：",
+      "mobile": "以及支援 Wallet Connect 的手機錢包，如：",
+      "and": "和"
+    }
+  }
+}
