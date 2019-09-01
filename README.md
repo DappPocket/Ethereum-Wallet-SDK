@@ -1,6 +1,6 @@
 # DappSDK
 
-Connect your Dapp to all wallets in one-line of code! Check DEMO: https://dappsdk.io/.
+Connect your Dapp to all wallets in one-line of code! Check DEMO: <https://dappsdk.io/>.
 
 ### How to build
 
@@ -12,7 +12,7 @@ npm run build
 
 After built successfully, it will create a bundled script and the only thing you need to do is insert the script to your website (Dapp).
 
-You can check: https://medium.com/@anderson.c/how-to-use-dapp-sdk-beta-9132f30f6d2d. We will have official Document soon.
+You can check: <https://medium.com/@anderson.c/how-to-use-dapp-sdk-beta-9132f30f6d2d>. We will have official Document soon.
 
 ### How to test
 
@@ -28,4 +28,4 @@ npm run watch
 npm run start
 ```
 
-It will run a local Dapp website in http://localhost:8080/.
+It will run a local Dapp website in <http://localhost:8080/>.
