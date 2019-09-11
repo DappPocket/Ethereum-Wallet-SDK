@@ -1,4 +1,6 @@
-# DappSDK
+# Wallet SDK
+
+![Demo](https://i.imgur.com/lINPiZc.png)
 
 Connect your Dapp to all wallets in one-line of code! Check [DEMO](https://dappsdk.io/).
 
