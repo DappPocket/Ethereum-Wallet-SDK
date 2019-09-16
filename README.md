@@ -31,3 +31,7 @@ npm run start
 ```
 
 It will run a local Dapp website in <http://localhost:8080/>.
+
+### Architecture
+
+![Architecture](https://i.imgur.com/7dfJHLL.png)
