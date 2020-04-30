@@ -33,7 +33,7 @@
     "css-loader": "^3.1.0",
     "ethereumjs-tx": "^2.1.0",
     "i18next": "^17.0.11",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
     "metamask-inpage-provider": "^2.0.1",
     "popper.js": "^1.15.0",
